@@ -100,43 +100,30 @@ resource "aws_route_table_association" "private_subnet_route_table_associations"
   route_table_id = aws_route_table.private_subnet_route_table.id
 }
 
-resource "aws_security_group" "security_group" {
+resource "aws_security_group" "security_groups" {
+  for_each = var.security_groups_config
+
+  name        = each.key
+  description = each.value.description
   vpc_id      = aws_vpc.b2111933_vpc.id
-  name        = "my_security_group"
-  description = "Public Security Group"
 
-  ingress {
-    from_port   = 80
-    to_port     = 80
-    protocol    = "tcp"
-    cidr_blocks = [var.default_cidr]
+  dynamic "ingress" {
+    for_each = each.value.ingress
+    content {
+      from_port   = ingress.value.from_port
+      to_port     = ingress.value.to_port
+      protocol    = ingress.value.protocol
+      cidr_blocks = ingress.value.cidr_blocks
+    }
   }
 
-  ingress {
-    from_port   = 22
-    to_port     = 22
-    protocol    = "tcp"
-    cidr_blocks = [var.default_cidr]
-  }
-
-  ingress {
-    from_port   = 3389
-    to_port     = 3389
-    protocol    = "tcp"
-    cidr_blocks = [var.default_cidr]
-  }
-
-  ingress {
-    from_port   = -1
-    to_port     = -1
-    protocol    = "icmp"
-    cidr_blocks = [var.default_cidr]
-  }
-
-  egress {
-    from_port   = 0
-    to_port     = 0
-    protocol    = "-1"
-    cidr_blocks = [var.default_cidr]
+  dynamic "egress" {
+    for_each = each.value.egress
+    content {
+      from_port   = egress.value.from_port
+      to_port     = egress.value.to_port
+      protocol    = egress.value.protocol
+      cidr_blocks = egress.value.cidr_blocks
+    }
   }
 }

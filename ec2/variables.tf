@@ -1,4 +1,10 @@
-variable "security_group" {}
+variable "security_group" {
+  type = map(string)
+  default = {
+    "sg_linux"   = "sg_linux",
+    "sg_windows" = "sg_windows"
+  }
+}
 
 variable "subnet" {}
 

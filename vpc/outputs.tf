@@ -38,7 +38,8 @@ output "private_route_table_id" {
   value       = aws_route_table.private_subnet_route_table.id
 }
 
-output "security_group_id" {
-  description = "ID of Security Group"
-  value       = aws_security_group.security_group.id
+output "sg_ids" {
+  description = "IDs for security groups"
+  value       = { for sg_name, sg in aws_security_group.security_groups : sg_name => sg.id }
 }
+
