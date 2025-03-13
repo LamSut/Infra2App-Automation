@@ -127,3 +127,13 @@ resource "aws_security_group" "security_groups" {
     }
   }
 }
+
+resource "aws_security_group_rule" "sg_icmp" {
+  for_each                 = toset(["sg_linux", "sg_windows"])
+  type                     = "ingress"
+  from_port                = -1
+  to_port                  = -1
+  protocol                 = "icmp"
+  security_group_id        = aws_security_group.security_groups[each.value].id
+  source_security_group_id = aws_security_group.security_groups[each.value].id
+}
