@@ -1,15 +1,13 @@
-//vpc
 resource "aws_vpc" "b2111933_vpc" {
   cidr_block           = var.vpc_cidr
   enable_dns_hostnames = true
   enable_dns_support   = true
 
   tags = {
-    "Name" = "b2111933_vpc"
+    Name = "b2111933_vpc"
   }
 }
 
-//vpc gw
 resource "aws_internet_gateway" "b2111933_vpc_igw" {
   vpc_id = aws_vpc.b2111933_vpc.id
 
@@ -18,19 +16,21 @@ resource "aws_internet_gateway" "b2111933_vpc_igw" {
   }
 }
 
-//subnet 1
-resource "aws_subnet" "public_subnet1" {
+resource "aws_subnet" "public_subnets" {
+  for_each                = { for idx, subnet in var.subnets : idx => subnet }
   vpc_id                  = aws_vpc.b2111933_vpc.id
-  cidr_block              = var.subnet1_cidr
+  cidr_block              = each.value.cidr_block
   map_public_ip_on_launch = true
-  availability_zone       = var.availability_zone
+  availability_zone       = each.value.availability_zone
 
   tags = {
-    "Name" = "public_subnet1"
+    Name = "public_subnet_${each.key}"
   }
 }
 
-resource "aws_route_table" "public_subnet_route_table1" {
+resource "aws_route_table" "public_subnet_route_tables" {
+  for_each = aws_subnet.public_subnets
+
   vpc_id = aws_vpc.b2111933_vpc.id
 
   route {
@@ -39,66 +39,87 @@ resource "aws_route_table" "public_subnet_route_table1" {
   }
 
   tags = {
-    Name = "public_subnet_route_table1"
+    Name = "public_subnet_route_table_${each.key}"
   }
 }
 
-resource "aws_route_table_association" "public_subnet_route_table1" {
-  subnet_id      = aws_subnet.public_subnet1.id
-  route_table_id = aws_route_table.public_subnet_route_table1.id
+resource "aws_route_table_association" "public_subnet_route_table_associations" {
+  for_each = aws_subnet.public_subnets
+
+  subnet_id      = each.value.id
+  route_table_id = aws_route_table.public_subnet_route_tables[each.key].id
 }
 
-//subnet2
-resource "aws_subnet" "public_subnet2" {
-  vpc_id                  = aws_vpc.b2111933_vpc.id
-  cidr_block              = var.subnet2_cidr
-  map_public_ip_on_launch = true
-  availability_zone       = var.availability_zone
+resource "aws_eip" "nat_eip" {
+  domain = "vpc"
 
   tags = {
-    "Name" = "public_subnet2"
+    Name = "nat_eip"
   }
 }
 
-resource "aws_route_table" "public_subnet_route_table2" {
+resource "aws_nat_gateway" "nat_gw" {
+  allocation_id = aws_eip.nat_eip.id
+  subnet_id     = aws_subnet.public_subnets["0"].id
+  depends_on    = [aws_internet_gateway.b2111933_vpc_igw]
+
+  tags = {
+    Name = "nat_gateway"
+  }
+}
+
+resource "aws_subnet" "private_subnets" {
+  for_each                = { for idx, subnet in var.private_subnets : idx => subnet }
+  vpc_id                  = aws_vpc.b2111933_vpc.id
+  cidr_block              = each.value.cidr_block
+  map_public_ip_on_launch = false
+  availability_zone       = each.value.availability_zone
+
+  tags = {
+    Name = "private_subnet_${each.key}"
+  }
+}
+
+resource "aws_route_table" "private_subnet_route_table" {
   vpc_id = aws_vpc.b2111933_vpc.id
 
   route {
-    cidr_block = var.default_cidr
-    gateway_id = aws_internet_gateway.b2111933_vpc_igw.id
+    cidr_block     = var.default_cidr
+    nat_gateway_id = aws_nat_gateway.nat_gw.id
   }
 
   tags = {
-    Name = "public_subnet_route_table2"
+    Name = "private_subnet_route_table"
   }
 }
 
-resource "aws_route_table_association" "public_subnet_route_table2" {
-  subnet_id      = aws_subnet.public_subnet2.id
-  route_table_id = aws_route_table.public_subnet_route_table2.id
+resource "aws_route_table_association" "private_subnet_route_table_associations" {
+  for_each = aws_subnet.private_subnets
+
+  subnet_id      = each.value.id
+  route_table_id = aws_route_table.private_subnet_route_table.id
 }
 
-//security group
 resource "aws_security_group" "security_group" {
   vpc_id      = aws_vpc.b2111933_vpc.id
   name        = "my_security_group"
   description = "Public Security Group"
 
-  ingress { //for HTTP
+  ingress {
     from_port   = 80
     to_port     = 80
     protocol    = "tcp"
     cidr_blocks = [var.default_cidr]
   }
 
-  ingress { //for SSH
+  ingress {
     from_port   = 22
     to_port     = 22
     protocol    = "tcp"
     cidr_blocks = [var.default_cidr]
   }
 
-  ingress { //for Windows Remote Connection
+  ingress {
     from_port   = 3389
     to_port     = 3389
     protocol    = "tcp"

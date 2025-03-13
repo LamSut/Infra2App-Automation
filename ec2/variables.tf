@@ -1,8 +1,6 @@
 variable "security_group" {}
 
-variable "subnet1" {}
-
-variable "subnet2" {}
+variable "subnet" {}
 
 variable "key_name" {
   type    = string
@@ -11,17 +9,17 @@ variable "key_name" {
 
 variable "ami_free_amazon" {
   type    = string
-  default = "ami-06b21ccaeff8cd686"
+  default = "ami-08b5b3a93ed654d19"
 }
 
 variable "ami_free_ubuntu" {
   type    = string
-  default = "ami-0866a3c8686eaeeba"
+  default = "ami-04b4f1a9cf54c11d0"
 }
 
 variable "ami_free_windows" {
   type    = string
-  default = "ami-0324a83b82023f0b3"
+  default = "ami-001adaa5c3ee02e10"
 }
 
 variable "instance_type_free" {

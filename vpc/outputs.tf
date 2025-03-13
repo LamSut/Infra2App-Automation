@@ -1,116 +1,44 @@
-//for using vpc
-
-output "public_subnet1" {
-  value = aws_subnet.public_subnet1.id
-}
-
-output "public_subnet2" {
-  value = aws_subnet.public_subnet2.id
-}
-
-output "security_group" {
-  value = aws_security_group.security_group.id
-}
-
-//for unit testing vpc
-
-output "enable_dns_hostnames" {
-  value = aws_vpc.b2111933_vpc.enable_dns_hostnames
-}
-
-output "enable_dns_support" {
-  value = aws_vpc.b2111933_vpc.enable_dns_support
-}
-
-// for unit testing subnets
-
-output "map_public_ip_on_launch" {
-  value = aws_subnet.public_subnet1.map_public_ip_on_launch
-}
-
-output "vpc_sm" {
-  value = tonumber(split("/", aws_vpc.b2111933_vpc.cidr_block)[1])
-}
-
-output "subnet1_sm" {
-  value = tonumber(split("/", aws_subnet.public_subnet1.cidr_block)[1])
-}
-
-output "subnet2_sm" {
-  value = tonumber(split("/", aws_subnet.public_subnet2.cidr_block)[1])
-}
-
-// for integration testing
-
-//vpc id
 output "vpc_id" {
-  value = aws_vpc.b2111933_vpc.id
+  description = "ID of the VPC"
+  value       = aws_vpc.b2111933_vpc.id
 }
 
-//gateway id
-output "gw" {
-  value = aws_internet_gateway.b2111933_vpc_igw.id
+output "internet_gateway_id" {
+  description = "ID of Internet Gateway"
+  value       = aws_internet_gateway.b2111933_vpc_igw.id
 }
 
-//gateway attach to vpc
-output "gw_vpc_id" {
-  value = aws_internet_gateway.b2111933_vpc_igw.vpc_id
+output "public_subnet_ids" {
+  description = "IDs for public subnets"
+  value       = values(aws_subnet.public_subnets)[*].id
 }
 
-//subnet1 vpc id
-output "subnet1_vpc_id" {
-  value = aws_subnet.public_subnet1.vpc_id
+output "public_route_table_ids" {
+  description = "IDs for public route tables"
+  value       = values(aws_route_table.public_subnet_route_tables)[*].id
 }
 
-//route_table1 id
-output "route_table1" {
-  value = aws_route_table.public_subnet_route_table1.id
+output "nat_eip_public_ip" {
+  description = "Elastic IP address assigned to the NAT Gateway"
+  value       = aws_eip.nat_eip.public_ip
 }
 
-//route_table1 vpc id
-output "route_table1_vpc_id" {
-  value = aws_route_table.public_subnet_route_table1.vpc_id
+output "nat_gateway_id" {
+  description = "ID of NAT Gateway"
+  value       = aws_nat_gateway.nat_gw.id
 }
 
-//route_table1 gw id
-output "route_table1_gw_id" {
-  value = [for r in aws_route_table.public_subnet_route_table1.route : r.gateway_id]
+output "private_subnet_ids" {
+  description = "IDs for private subnets"
+  value       = values(aws_subnet.private_subnets)[*].id
 }
 
-//subnet1 route table association
-output "association_route_table1" {
-  value = aws_route_table_association.public_subnet_route_table1.route_table_id
+output "private_route_table_id" {
+  description = "ID of private route table"
+  value       = aws_route_table.private_subnet_route_table.id
 }
 
-output "association_subnet1" {
-  value = aws_route_table_association.public_subnet_route_table1.subnet_id
-}
-
-//subnet2 vpc id
-output "subnet2_vpc_id" {
-  value = aws_subnet.public_subnet2.vpc_id
-}
-
-//route_table2 id
-output "route_table2" {
-  value = aws_route_table.public_subnet_route_table2.id
-}
-
-//route_table2 vpc id
-output "route_table2_vpc_id" {
-  value = aws_route_table.public_subnet_route_table2.vpc_id
-}
-
-//route_table2 gw id
-output "route_table2_gw_id" {
-  value = [for r in aws_route_table.public_subnet_route_table2.route : r.gateway_id]
-}
-
-//subnet2 route table association
-output "association_route_table2" {
-  value = aws_route_table_association.public_subnet_route_table2.route_table_id
-}
-
-output "association_subnet2" {
-  value = aws_route_table_association.public_subnet_route_table2.subnet_id
+output "security_group_id" {
+  description = "ID of Security Group"
+  value       = aws_security_group.security_group.id
 }
