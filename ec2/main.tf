@@ -4,7 +4,7 @@ resource "aws_instance" "amazon" {
   ami           = var.ami_free_amazon
   instance_type = var.instance_type_free
 
-  key_name = var.key_name
+  key_name = var.private_key_name
 
   subnet_id              = var.public_subnet[0]
   vpc_security_group_ids = [var.security_group["sg_linux"]]
@@ -24,6 +24,10 @@ resource "aws_instance" "amazon" {
     }
   }
 
+  provisioner "local-exec" {
+    command = "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -u ec2-user --key-file ${var.private_key_path} -T 300 -i '${self.public_ip},' playbooks/nginx.yaml"
+  }
+
   tags = {
     Name = "B2111933 Amazon Linux"
   }
@@ -35,7 +39,7 @@ resource "aws_instance" "ubuntu" {
   ami           = var.ami_free_ubuntu
   instance_type = var.instance_type_free
 
-  key_name = var.key_name
+  key_name = var.private_key_name
 
   subnet_id              = var.public_subnet[1]
   vpc_security_group_ids = [var.security_group["sg_linux"]]
@@ -55,6 +59,10 @@ resource "aws_instance" "ubuntu" {
     }
   }
 
+  provisioner "local-exec" {
+    command = "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -u ubuntu --key-file ${var.private_key_path} -T 300 -i '${self.public_ip},' playbooks/nginx.yaml"
+  }
+
   tags = {
     Name = "B2111933 Ubuntu"
   }
@@ -66,7 +74,7 @@ resource "aws_instance" "windows" {
   ami           = var.ami_free_windows
   instance_type = var.instance_type_free
 
-  key_name = var.key_name
+  key_name = var.private_key_name
 
   subnet_id              = var.public_subnet[2]
   vpc_security_group_ids = [var.security_group["sg_windows"]]

@@ -20,10 +20,16 @@ jobs:
         with:
           terraform_version: 1.6
 
+      - name: Install Ansible
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y ansible
+
       - name: Setup SSH Private Key
         run: |
-          echo "${{ secrets.AWS_PRIVATE_KEY }}" > b2111933-pair.pem
-          chmod 600 b2111933-pair.pem
+          mkdir -p keys
+          echo "${{ secrets.AWS_PRIVATE_KEY }}" > keys/b2111933-pair.pem
+          chmod 600 keys/b2111933-pair.pem
 
       - name: Download Planfile Artifact
         uses: dawidd6/action-download-artifact@v7

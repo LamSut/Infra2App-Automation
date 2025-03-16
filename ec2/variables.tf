@@ -10,9 +10,14 @@ variable "public_subnet" {}
 
 variable "private_subnet" {}
 
-variable "key_name" {
+variable "private_key_name" {
   type    = string
   default = "b2111933-pair"
+}
+
+variable "private_key_path" {
+  type    = string
+  default = "keys/b2111933-pair.pem"
 }
 
 variable "ami_free_amazon" {
@@ -33,9 +38,4 @@ variable "ami_free_windows" {
 variable "instance_type_free" {
   type    = string
   default = "t2.micro"
-}
-
-variable "private_key_path" {
-  type        = string
-  default     = "b2111933-pair.pem"
 }

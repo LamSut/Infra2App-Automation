@@ -39,4 +39,4 @@ override.tf.json
 terraform.rc
 
 # Keys
-b2111933-pair.pem
+keys/*
