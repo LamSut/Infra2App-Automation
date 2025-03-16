@@ -34,3 +34,8 @@ variable "instance_type_free" {
   type    = string
   default = "t2.micro"
 }
+
+variable "private_key_path" {
+  type        = string
+  default     = "b2111933-pair.pem"
+}

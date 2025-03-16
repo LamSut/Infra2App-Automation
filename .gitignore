@@ -37,3 +37,6 @@ override.tf.json
 # Ignore CLI configuration files
 .terraformrc
 terraform.rc
+
+# Keys
+b2111933-pair.pem

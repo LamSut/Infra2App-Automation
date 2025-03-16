@@ -1,4 +1,4 @@
-name: Manual Apply # To prevent using a stale plan file, please run the Integrate workflow again.
+name: Manual Apply
 
 on:
   workflow_dispatch:
@@ -20,6 +20,11 @@ jobs:
         with:
           terraform_version: 1.6
 
+      - name: Setup SSH Private Key
+        run: |
+          echo "${{ secrets.AWS_PRIVATE_KEY }}" > b2111933-pair.pem
+          chmod 600 b2111933-pair.pem
+
       - name: Download Planfile Artifact
         uses: dawidd6/action-download-artifact@v7
         with:
@@ -31,19 +36,3 @@ jobs:
 
       - name: Terraform Apply
         run: terraform apply -input=false planfile
-
-  config:
-    runs-on: ubuntu-latest
-    needs: apply # Run after terraform apply
-    steps:
-      - name: Checkout Code
-        uses: actions/checkout@v3
-
-      - name: Set up Ansible
-        run: |
-          sudo apt update
-          sudo apt install -y ansible
-
-      - name: Run Ansible Playbook
-        run: |
-          ansible-playbook -i ansible/inventory/aws_ec2.yaml ansible/playbooks/nginx.yml

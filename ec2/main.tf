@@ -9,6 +9,21 @@ resource "aws_instance" "amazon" {
   subnet_id              = var.public_subnet[0]
   vpc_security_group_ids = [var.security_group["sg_linux"]]
 
+  provisioner "remote-exec" {
+    inline = [
+      "sudo dnf update -y",
+      "sudo dnf install -y amazon-linux-extras",
+      "sudo amazon-linux-extras enable ansible2",
+      "sudo dnf install -y ansible"
+    ]
+    connection {
+      type        = "ssh"
+      user        = "ec2-user"
+      private_key = file(var.private_key_path)
+      host        = self.public_ip
+    }
+  }
+
   tags = {
     Name = "B2111933 Amazon Linux"
   }
@@ -24,6 +39,21 @@ resource "aws_instance" "ubuntu" {
 
   subnet_id              = var.public_subnet[1]
   vpc_security_group_ids = [var.security_group["sg_linux"]]
+
+  provisioner "remote-exec" {
+    inline = [
+      "sudo apt update -y",
+      "sudo apt install -y software-properties-common",
+      "sudo apt-add-repository --yes --update ppa:ansible/ansible",
+      "sudo apt install -y ansible"
+    ]
+    connection {
+      type        = "ssh"
+      user        = "ubuntu"
+      private_key = file(var.private_key_path)
+      host        = self.public_ip
+    }
+  }
 
   tags = {
     Name = "B2111933 Ubuntu"
