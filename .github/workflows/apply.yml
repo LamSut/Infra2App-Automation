@@ -25,7 +25,12 @@ jobs:
           sudo apt-get update
           sudo apt-get install -y ansible
 
-      - name: Setup SSH Private Key
+      - name: Install Python dependencies for WinRM
+        run: |
+          python3 -m pip install --upgrade pip
+          pip3 install pywinrm requests
+
+      - name: Setup Private Key for Remote Connections
         run: |
           mkdir -p keys
           echo "${{ secrets.AWS_PRIVATE_KEY }}" > keys/b2111933-pair.pem
