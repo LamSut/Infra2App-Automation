@@ -22,14 +22,14 @@ variable "subnets" {
       cidr_block        = "10.0.2.0/24"
       availability_zone = "us-east-1a"
     },
-    {
-      cidr_block        = "10.0.3.0/24"
-      availability_zone = "us-east-1a"
-    },
-    {
-      cidr_block        = "10.0.4.0/24"
-      availability_zone = "us-east-1a"
-    }
+    # {
+    #   cidr_block        = "10.0.3.0/24"
+    #   availability_zone = "us-east-1a"
+    # },
+    # {
+    #   cidr_block        = "10.0.4.0/24"
+    #   availability_zone = "us-east-1a"
+    # }
   ]
 }
 
@@ -47,14 +47,14 @@ variable "private_subnets" {
       cidr_block        = "10.0.102.0/24"
       availability_zone = "us-east-1a"
     },
-    {
-      cidr_block        = "10.0.103.0/24"
-      availability_zone = "us-east-1a"
-    },
-    {
-      cidr_block        = "10.0.104.0/24"
-      availability_zone = "us-east-1a"
-    }
+    # {
+    #   cidr_block        = "10.0.103.0/24"
+    #   availability_zone = "us-east-1a"
+    # },
+    # {
+    #   cidr_block        = "10.0.104.0/24"
+    #   availability_zone = "us-east-1a"
+    # }
   ]
 }
 
@@ -75,7 +75,7 @@ variable "security_groups_config" {
     }))
   }))
   default = {
-    "sg_linux" = {
+    sg_linux = {
       description = "Security Group for Linux"
       ingress = [
         {
@@ -95,6 +95,12 @@ variable "security_groups_config" {
           to_port     = 443
           protocol    = "tcp"
           cidr_blocks = ["0.0.0.0/0"]
+        },
+        {
+          from_port   = -1
+          to_port     = -1
+          protocol    = "icmp"
+          cidr_blocks = ["0.0.0.0/0"]
         }
       ]
       egress = [
@@ -106,7 +112,7 @@ variable "security_groups_config" {
         }
       ]
     },
-    "sg_windows" = {
+    sg_windows = {
       description = "Security Group for Windows"
       ingress = [
         {
@@ -125,6 +131,18 @@ variable "security_groups_config" {
           from_port   = 3389
           to_port     = 3389
           protocol    = "tcp"
+          cidr_blocks = ["0.0.0.0/0"]
+        },
+        {
+          from_port   = 5986
+          to_port     = 5986
+          protocol    = "tcp"
+          cidr_blocks = ["0.0.0.0/0"]
+        },
+        {
+          from_port   = -1
+          to_port     = -1
+          protocol    = "icmp"
           cidr_blocks = ["0.0.0.0/0"]
         }
       ]

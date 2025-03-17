@@ -1,0 +1,26 @@
+- name: Install Nginx on Windows
+  hosts: all
+  gather_facts: yes
+  vars:
+    nginx_version: "1.27.4"
+  tasks:
+    - name: Install Nginx via Chocolatey
+      win_chocolatey:
+        name: nginx
+        state: present
+
+    - name: Ensure the document root directory exists
+      win_file:
+        path: C:\tools\nginx-{{ nginx_version }}\html
+        state: directory
+
+    - name: Copy index.html to the document root
+      win_template:
+        src: index.html
+        dest: C:\tools\nginx-{{ nginx_version }}\html\index.html
+
+    - name: Start the Nginx service and set it to auto start
+      win_service:
+        name: nginx
+        state: started
+        start_mode: auto
