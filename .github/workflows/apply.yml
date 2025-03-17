@@ -20,15 +20,12 @@ jobs:
         with:
           terraform_version: 1.6
 
-      - name: Install Ansible
+      - name: Install Python and Ansible dependencies
         run: |
           sudo apt-get update
-          sudo apt-get install -y ansible
-
-      - name: Install Python dependencies for WinRM
-        run: |
+          sudo apt-get install -y python3-pip
           python3 -m pip install --upgrade pip
-          pip3 install pywinrm requests
+          pip3 install ansible pywinrm requests
 
       - name: Setup Private Key for Remote Connections
         run: |
