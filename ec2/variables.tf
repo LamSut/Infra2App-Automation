@@ -47,13 +47,13 @@ variable "private_key_path" {
 variable "playbooks_linux" {
   type = list(string)
   default = [
-    "playbooks/nginx/nginx-linux.yaml"
+    "playbooks/nginx/linux-install.yaml"
   ]
 }
 
 variable "playbooks_windows" {
   type = list(string)
   default = [
-    "playbooks/nginx/nginx-windows.yaml"
+    "playbooks/nginx/windows-install.yaml"
   ]
 }

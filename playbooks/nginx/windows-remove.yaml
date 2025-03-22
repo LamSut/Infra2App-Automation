@@ -1,0 +1,34 @@
+- name: Remove Nginx on Windows
+  hosts: all
+  gather_facts: yes
+  vars:
+    nginx_version: "1.27.4"
+  tasks:
+    - name: Stop Nginx service and disable auto start
+      win_service:
+        name: nginx
+        state: stopped
+        start_mode: disabled
+      ignore_errors: yes
+
+    - name: Uninstall Nginx via Chocolatey
+      win_chocolatey:
+        name: nginx
+        state: absent
+      ignore_errors: yes
+
+    - name: Remove the document root directory
+      win_file:
+        path: "C:/tools/nginx-{{ nginx_version }}/html"
+        state: absent
+        recurse: yes
+
+    - name: Remove Nginx installation directory
+      win_file:
+        path: "C:/tools/nginx-{{ nginx_version }}"
+        state: absent
+        recurse: yes
+
+    - name: Remove Nginx service if it still exists
+      win_command: sc delete nginx
+      ignore_errors: yes
