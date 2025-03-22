@@ -29,9 +29,11 @@ jobs:
 
       - name: Terraform Init
         run: terraform init
+        working-directory: terraform
 
       - name: Terraform Validate
         run: terraform validate
+        working-directory: terraform
 
   test:
     runs-on: ubuntu-latest
@@ -47,9 +49,11 @@ jobs:
 
       - name: Terraform Init
         run: terraform init
+        working-directory: terraform
 
       - name: Terraform Test
         run: terraform test
+        working-directory: terraform
 
   plan:
     runs-on: ubuntu-latest
@@ -65,12 +69,14 @@ jobs:
 
       - name: Terraform Init
         run: terraform init
+        working-directory: terraform
 
       - name: Terraform Plan
         run: terraform plan -out=planfile
+        working-directory: terraform
 
       - name: Upload Planfile as Artifact
         uses: actions/upload-artifact@v4
         with:
           name: terraform-planfile
-          path: planfile
+          path: terraform/planfile

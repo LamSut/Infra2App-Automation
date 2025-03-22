@@ -1,4 +1,4 @@
-name: Manual Destroy #To prevent using a stale plan file, please run the Integrate workflow again.
+name: Manual Destroy # To prevent using a stale plan file, please run the Integrate workflow again
 
 on:
   workflow_dispatch:
@@ -25,9 +25,12 @@ jobs:
         with:
           workflow: integrate.yml
           name: terraform-planfile
+          path: terraform
 
       - name: Terraform Init
         run: terraform init
+        working-directory: terraform
 
       - name: Terraform Destroy
         run: terraform destroy --auto-approve
+        working-directory: terraform
