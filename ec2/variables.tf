@@ -1,3 +1,4 @@
+# Network
 variable "security_group" {
   type = map(string)
   default = {
@@ -10,16 +11,7 @@ variable "public_subnet" {}
 
 variable "private_subnet" {}
 
-variable "private_key_name" {
-  type    = string
-  default = "b2111933-pair"
-}
-
-variable "private_key_path" {
-  type    = string
-  default = "keys/b2111933-pair.pem"
-}
-
+# Free EC2 
 variable "ami_free_amazon" {
   type    = string
   default = "ami-08b5b3a93ed654d19"
@@ -38,4 +30,30 @@ variable "ami_free_windows" {
 variable "instance_type_free" {
   type    = string
   default = "t2.micro"
+}
+
+# Keys
+variable "private_key_name" {
+  type    = string
+  default = "b2111933-pair"
+}
+
+variable "private_key_path" {
+  type    = string
+  default = "keys/b2111933-pair.pem"
+}
+
+# Ansible Playbooks
+variable "playbooks_linux" {
+  type = list(string)
+  default = [
+    "playbooks/nginx/nginx-linux.yaml"
+  ]
+}
+
+variable "playbooks_windows" {
+  type = list(string)
+  default = [
+    "playbooks/nginx/nginx-windows.yaml"
+  ]
 }

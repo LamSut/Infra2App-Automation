@@ -26,7 +26,10 @@ resource "aws_instance" "amazon" {
   }
 
   provisioner "local-exec" {
-    command = "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -u ec2-user --key-file ${var.private_key_path} -T 300 -i '${self.public_ip},' playbooks/nginx/nginx-linux.yaml"
+    command = join(" && ", [
+      for pb in var.playbooks_linux :
+      "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -u ${self.tags["Name"] == "B2111933 Ubuntu" ? "ubuntu" : "ec2-user"} --key-file ${var.private_key_path} -T 300 -i '${self.public_ip},' ${pb}"
+    ])
   }
 
   tags = {
@@ -61,7 +64,10 @@ resource "aws_instance" "ubuntu" {
   }
 
   provisioner "local-exec" {
-    command = "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -u ubuntu --key-file ${var.private_key_path} -T 300 -i '${self.public_ip},' playbooks/nginx/nginx-linux.yaml"
+    command = join(" && ", [
+      for pb in var.playbooks_linux :
+      "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -u ${self.tags["Name"] == "B2111933 Ubuntu" ? "ubuntu" : "ec2-user"} --key-file ${var.private_key_path} -T 300 -i '${self.public_ip},' ${pb}"
+    ])
   }
 
   tags = {
@@ -134,10 +140,12 @@ resource "null_resource" "ansible_windows" {
     interpreter = ["/bin/bash", "-c"]
     command     = <<EOT
     echo "Running Ansible with password: $(awk '{print $2}' ./keys/${aws_instance.windows[count.index].id}.txt | tr -d '\r')"
-    ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook \
-      -u Administrator --connection=winrm \
-      --extra-vars "ansible_winrm_server_cert_validation=ignore ansible_winrm_password=$(awk '{print $2}' ./keys/${aws_instance.windows[count.index].id}.txt | tr -d '\r')" \
-      -T 600 -i '${aws_instance.windows[count.index].public_ip},' playbooks/nginx/nginx-windows.yaml
+    for pb in ${join(" ", var.playbooks_windows)}; do
+      ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook \
+        -u Administrator --connection=winrm \
+        --extra-vars "ansible_winrm_server_cert_validation=ignore ansible_winrm_password=$(awk '{print $2}' ./keys/${aws_instance.windows[count.index].id}.txt | tr -d '\r')" \
+        -T 600 -i '${aws_instance.windows[count.index].public_ip},' "$pb"
+    done
   EOT
   }
 }
