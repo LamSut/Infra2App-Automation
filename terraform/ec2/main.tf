@@ -1,21 +1,16 @@
 #Provisioning
 resource "aws_instance" "amazon" {
-  count    = 1
-  key_name = var.private_key_name
+  count = 2
+  tags  = { Name = "B2111933 Amazon Linux ${count.index + 1}" }
 
   ami                    = var.ami_free_amazon
   instance_type          = var.instance_type_free
   subnet_id              = var.public_subnet[0]
   vpc_security_group_ids = [var.security_group["sg_linux"]]
 
+  key_name = var.private_key_name
   provisioner "remote-exec" {
-    inline = [
-      "sudo dnf update -y",
-      "sudo dnf install -y python3 python3-pip",
-      "sudo dnf install -y amazon-linux-extras",
-      "sudo amazon-linux-extras enable ansible2",
-      "sudo dnf install -y ansible"
-    ]
+    script = var.setup_amazon
     connection {
       type        = "ssh"
       user        = "ec2-user"
@@ -23,28 +18,20 @@ resource "aws_instance" "amazon" {
       host        = self.public_ip
     }
   }
-
-  tags = {
-    Name = "B2111933 Amazon Linux"
-  }
 }
 
 resource "aws_instance" "ubuntu" {
-  count    = 2
-  key_name = var.private_key_name
+  count = 2
+  tags  = { Name = "B2111933 Ubuntu ${count.index + 1}" }
 
   ami                    = var.ami_free_ubuntu
   instance_type          = var.instance_type_free
   subnet_id              = var.public_subnet[1]
   vpc_security_group_ids = [var.security_group["sg_linux"]]
 
+  key_name = var.private_key_name
   provisioner "remote-exec" {
-    inline = [
-      "sudo apt update -y",
-      "sudo apt install -y software-properties-common",
-      "sudo apt-add-repository --yes --update ppa:ansible/ansible",
-      "sudo apt install -y ansible"
-    ]
+    script = var.setup_ubuntu
     connection {
       type        = "ssh"
       user        = "ubuntu"
@@ -52,40 +39,19 @@ resource "aws_instance" "ubuntu" {
       host        = self.public_ip
     }
   }
-
-  tags = {
-    Name = "B2111933 Ubuntu"
-  }
 }
 
 resource "aws_instance" "windows" {
-  count    = 2
-  key_name = var.private_key_name
+  count = 2
+  tags  = { Name = "B2111933 Windows ${count.index + 1}" }
 
   ami                    = var.ami_free_windows
   instance_type          = var.instance_type_free
   subnet_id              = var.public_subnet[0]
   vpc_security_group_ids = [var.security_group["sg_windows"]]
 
-  user_data = <<EOF
-  <powershell>
-  New-NetFirewallRule -DisplayName "WinRM HTTPS" -Direction Inbound -Action Allow -Protocol TCP -LocalPort 5986
-  New-NetFirewallRule -DisplayName "Allow HTTP" -Direction Inbound -Action Allow -Protocol TCP -LocalPort 80
-  New-NetFirewallRule -DisplayName "Allow HTTPS" -Direction Inbound -Action Allow -Protocol TCP -LocalPort 443
-  winrm quickconfig -q
-  winrm set winrm/config/service '@{AllowUnencrypted="true"}'
-  winrm set winrm/config/service/auth '@{Basic="true"}'
-  winrm set winrm/config/winrs '@{MaxMemoryPerShellMB="1024"}'
-  $cert = New-SelfSignedCertificate -DnsName (hostname) -CertStoreLocation Cert:\LocalMachine\My
-  winrm create winrm/config/Listener?Address=*+Transport=HTTPS "@{Hostname=`"$(hostname)`"; CertificateThumbprint=`"$($cert.Thumbprint)`"}"
-  net localgroup "Remote Management Users" Administrator /add
-  Restart-Service winrm
-  </powershell>
-  EOF
-
-  tags = {
-    Name = "B2111933 Windows"
-  }
+  key_name  = var.private_key_name
+  user_data = file(var.setup_windows)
 }
 
 # Configuration Management

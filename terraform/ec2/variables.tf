@@ -1,4 +1,15 @@
-# Network
+# Keys
+variable "private_key_name" {
+  type    = string
+  default = "b2111933-pair"
+}
+
+variable "private_key_path" {
+  type    = string
+  default = "../keys/b2111933-pair.pem"
+}
+
+# Networking
 variable "security_group" {
   type = map(string)
   default = {
@@ -11,7 +22,7 @@ variable "public_subnet" {}
 
 variable "private_subnet" {}
 
-# Free EC2 
+# Free AMIs
 variable "ami_free_amazon" {
   type    = string
   default = "ami-08b5b3a93ed654d19"
@@ -27,20 +38,23 @@ variable "ami_free_windows" {
   default = "ami-001adaa5c3ee02e10"
 }
 
+# Free Instance Types
 variable "instance_type_free" {
   type    = string
   default = "t2.micro"
 }
 
-# Keys
-variable "private_key_name" {
-  type    = string
-  default = "b2111933-pair"
+# Setup for Ansible
+variable "setup_amazon" {
+  default = "../ansible/setup/amazon.sh"
 }
 
-variable "private_key_path" {
-  type    = string
-  default = "../keys/b2111933-pair.pem"
+variable "setup_ubuntu" {
+  default = "../ansible/setup/ubuntu.sh"
+}
+
+variable "setup_windows" {
+  default = "../ansible/setup/windows.ps1"
 }
 
 # Ansible Playbooks
