@@ -44,16 +44,10 @@ variable "private_key_path" {
 }
 
 # Ansible Playbooks
-variable "playbooks_linux" {
-  type = list(string)
-  default = [
-    "../ansible/playbooks/nginx/linux-install.yaml"
-  ]
+variable "pb_linux_path" {
+  default = "../ansible/playbooks/linux"
 }
 
-variable "playbooks_windows" {
-  type = list(string)
-  default = [
-    "../ansible/playbooks/nginx/windows-install.yaml"
-  ]
+variable "pb_windows_path" {
+  default = "../ansible/playbooks/windows"
 }
