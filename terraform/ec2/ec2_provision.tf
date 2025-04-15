@@ -1,7 +1,7 @@
 #Provisioning
 
 resource "aws_instance" "amazon" {
-  count = 2
+  count = 1
   tags  = { Name = "B2111933 Amazon Linux ${count.index + 1}" }
 
   ami                    = var.ami_free_amazon
@@ -22,7 +22,7 @@ resource "aws_instance" "amazon" {
 }
 
 resource "aws_instance" "ubuntu" {
-  count = 2
+  count = 0
   tags  = { Name = "B2111933 Ubuntu ${count.index + 1}" }
 
   ami                    = var.ami_free_ubuntu
@@ -43,7 +43,7 @@ resource "aws_instance" "ubuntu" {
 }
 
 resource "aws_instance" "windows" {
-  count = 2
+  count = 0
   tags  = { Name = "B2111933 Windows ${count.index + 1}" }
 
   ami                    = var.ami_free_windows

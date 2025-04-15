@@ -1,0 +1,10 @@
+- name: Clone the Play-with-Containers repo
+  hosts: all
+  become: false
+
+  tasks:
+    - name: Clone the Play-with-Containers repo
+      git:
+        repo: https://github.com/LamSut/Play-with-Containers.git
+        dest: /home/{{ ansible_user }}/Play-with-Containers
+        version: main

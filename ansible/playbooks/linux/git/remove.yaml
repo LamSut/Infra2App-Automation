@@ -1,0 +1,37 @@
+---
+- name: Remove Git from Linux
+  hosts: all
+  become: true
+
+  tasks:
+    - name: Remove Git on Ubuntu
+      apt:
+        name: git
+        state: absent
+        purge: yes
+        autoremove: yes
+      when: ansible_os_family == "Debian"
+
+    - name: Remove Git on Amazon Linux
+      yum:
+        name: git
+        state: absent
+      when: ansible_os_family == "RedHat"
+
+    - name: Remove global Git username config
+      command: git config --global --unset user.name
+      ignore_errors: yes
+
+    - name: Remove global Git email config
+      command: git config --global --unset user.email
+      ignore_errors: yes
+
+    - name: Confirm Git removal
+      command: git --version
+      register: git_check
+      ignore_errors: yes
+      changed_when: false
+
+    - name: Display Git removal result
+      debug:
+        msg: "{{ git_check.stdout if git_check.rc == 0 else 'Git is removed or not available' }}"
