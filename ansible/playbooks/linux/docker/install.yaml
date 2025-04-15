@@ -1,4 +1,4 @@
-- name: Install Docker on Linux
+- name: Install Docker and Docker Compose v1 on Linux
   hosts: all
   become: true
   tasks:
@@ -49,3 +49,23 @@
         name: "{{ ansible_user }}"
         groups: docker
         append: yes
+
+    - name: Download Docker Compose v1 binary
+      get_url:
+        url: "https://github.com/docker/compose/releases/latest/download/docker-compose-{{ ansible_system }}-{{ ansible_architecture }}"
+        dest: /usr/local/bin/docker-compose
+        mode: '0755'
+
+    - name: Ensure docker-compose is executable
+      file:
+        path: /usr/local/bin/docker-compose
+        mode: '0755'
+        state: file
+
+    - name: Create symbolic link for docker-compose (optional)
+      file:
+        src: /usr/local/bin/docker-compose
+        dest: /usr/bin/docker-compose
+        state: link
+        force: yes
+

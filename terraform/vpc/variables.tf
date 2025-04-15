@@ -97,6 +97,24 @@ variable "security_groups_config" {
           cidr_blocks = ["0.0.0.0/0"]
         },
         {
+          from_port   = 3000
+          to_port     = 3000
+          protocol    = "tcp"
+          cidr_blocks = ["0.0.0.0/0"]
+        },
+        {
+          from_port   = 5000
+          to_port     = 5000
+          protocol    = "tcp"
+          cidr_blocks = ["0.0.0.0/0"]
+        },
+        {
+          from_port   = 5173
+          to_port     = 5173
+          protocol    = "tcp"
+          cidr_blocks = ["0.0.0.0/0"]
+        },
+        {
           from_port   = -1
           to_port     = -1
           protocol    = "icmp"
@@ -130,6 +148,12 @@ variable "security_groups_config" {
         {
           from_port   = 3389
           to_port     = 3389
+          protocol    = "tcp"
+          cidr_blocks = ["0.0.0.0/0"]
+        },
+        {
+          from_port   = 5173
+          to_port     = 5173
           protocol    = "tcp"
           cidr_blocks = ["0.0.0.0/0"]
         },

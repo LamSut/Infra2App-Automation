@@ -1,0 +1,25 @@
+- name: Pizza website with Docker
+  hosts: all
+  become: false
+
+  tasks:
+    - name: Clone the Play-with-Containers repo
+      git:
+        repo: https://github.com/LamSut/Play-with-Containers.git
+        dest: /home/{{ ansible_user }}/containers
+        version: main
+
+    - name: Ensure Bash script is executable
+      file:
+        path: /home/{{ ansible_user }}/containers/4.compose/pizza/start-ansible.sh
+        mode: '0755'
+        state: file
+
+    - name: Build & Run the Pizza website
+      shell: |
+        cd /home/{{ ansible_user }}/containers/4.compose/pizza
+        ./start-ansible.sh
+      args:
+        chdir: /home/{{ ansible_user }}/containers/4.compose/pizza
+      environment:
+        PATH: "{{ ansible_env.PATH }}"
