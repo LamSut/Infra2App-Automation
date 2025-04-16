@@ -11,8 +11,6 @@ locals {
     [for i in aws_instance.ubuntu : "ubuntu"]
   )
   linux_playbooks = [
-    "${var.pb_linux_path}/docker/install.yaml",
-    "${var.pb_linux_path}/git/install.yaml",
     "${var.pb_linux_path}/pizza-website/install.yaml",
   ]
 

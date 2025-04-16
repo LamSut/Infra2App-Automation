@@ -45,12 +45,8 @@ variable "instance_type_free" {
 }
 
 # Setup for Ansible
-variable "setup_amazon" {
-  default = "../ansible/setup/amazon.sh"
-}
-
-variable "setup_ubuntu" {
-  default = "../ansible/setup/ubuntu.sh"
+variable "setup_linux" {
+  default = "../ansible/setup/linux.sh"
 }
 
 variable "setup_windows" {

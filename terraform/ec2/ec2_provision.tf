@@ -11,7 +11,7 @@ resource "aws_instance" "amazon" {
 
   key_name = var.private_key_name
   provisioner "remote-exec" {
-    script = var.setup_amazon
+    script = var.setup_linux
     connection {
       type        = "ssh"
       user        = "ec2-user"
@@ -32,7 +32,7 @@ resource "aws_instance" "ubuntu" {
 
   key_name = var.private_key_name
   provisioner "remote-exec" {
-    script = var.setup_ubuntu
+    script = var.setup_linux
     connection {
       type        = "ssh"
       user        = "ubuntu"
