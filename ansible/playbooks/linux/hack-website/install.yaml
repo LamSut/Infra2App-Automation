@@ -1,0 +1,19 @@
+- name: Ethical Hacking website with Docker
+  hosts: all
+  become: false
+
+  tasks:
+    - name: Ensure Bash script is executable
+      file:
+        path: /home/{{ ansible_user }}/containers/4.compose/hack/start-ansible.sh
+        mode: '0755'
+        state: file
+
+    - name: Build & Run the Ethical Hacking website
+      shell: |
+        cd /home/{{ ansible_user }}/containers/4.compose/hack
+        ./start-ansible.sh
+      args:
+        chdir: /home/{{ ansible_user }}/containers/4.compose/hack
+      environment:
+        PATH: "{{ ansible_env.PATH }}"

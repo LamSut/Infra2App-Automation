@@ -3,12 +3,6 @@
   become: false
 
   tasks:
-    - name: Clone the Play-with-Containers repo
-      git:
-        repo: https://github.com/LamSut/Play-with-Containers.git
-        dest: /home/{{ ansible_user }}/containers
-        version: main
-
     - name: Ensure Bash script is executable
       file:
         path: /home/{{ ansible_user }}/containers/4.compose/pizza/start-ansible.sh

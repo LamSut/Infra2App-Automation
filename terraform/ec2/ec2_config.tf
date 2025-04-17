@@ -10,13 +10,14 @@ locals {
     [for i in aws_instance.amazon : "ec2-user"],
     [for i in aws_instance.ubuntu : "ubuntu"]
   )
-  linux_playbooks = [
-    "${var.pb_linux_path}/pizza-website/install.yaml",
-  ]
-
   # Windows
   windows_public_ips = aws_instance.windows[*].public_ip
   windows_users      = [for i in aws_instance.windows : "Administrator"]
+
+  # Ansible Playbooks
+  linux_playbooks = [
+    "${var.pb_linux_path}/hack-website/install.yaml",
+  ]
   windows_playbooks = [
     "${var.pb_windows_path}/nginx/install.yaml"
   ]
