@@ -16,7 +16,7 @@ locals {
 
   # Ansible Playbooks
   linux_playbooks = [
-    "${var.pb_linux_path}/hack-website/install.yaml",
+    "${var.pb_linux_path}/pizza-website/install.yaml",
   ]
   windows_playbooks = [
     "${var.pb_windows_path}/nginx/install.yaml"
