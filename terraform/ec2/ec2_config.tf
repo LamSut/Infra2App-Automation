@@ -15,25 +15,47 @@ locals {
   windows_users      = [for i in aws_instance.windows : "Administrator"]
 
   # Ansible Playbooks
-  linux_playbooks = [
+  amazon_playbooks = [
     "${var.pb_linux_path}/hack-website/install.yaml",
+  ]
+  ubuntu_playbooks = [
+    "${var.pb_linux_path}/pizza-website/install.yaml",
   ]
   windows_playbooks = [
     "${var.pb_windows_path}/nginx/install.yaml"
   ]
 }
 
-resource "null_resource" "linux_config" {
+resource "null_resource" "amazon_config" {
   count = length(local.linux_public_ips)
   depends_on = [
     aws_instance.amazon,
-    aws_instance.ubuntu
   ]
 
   provisioner "local-exec" {
     command = join(" && ", concat(
-      ["echo \"Running Ansible playbooks on Linux instance with IP: ${local.linux_public_ips[count.index]}\""],
-      [for pb in local.linux_playbooks : format(
+      ["echo \"Running Ansible playbooks on Amazon instance with IP: ${local.linux_public_ips[count.index]}\""],
+      [for pb in local.amazon_playbooks : format(
+        "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -u %s --key-file %s -T 300 -i '%s,' %s",
+        local.linux_users[count.index],
+        var.private_key_path,
+        local.linux_public_ips[count.index],
+        pb
+      )]
+    ))
+  }
+}
+
+resource "null_resource" "ubuntu_config" {
+  count = length(local.linux_public_ips)
+  depends_on = [
+    aws_instance.ubuntu,
+  ]
+
+  provisioner "local-exec" {
+    command = join(" && ", concat(
+      ["echo \"Running Ansible playbooks on Ubuntu instance with IP: ${local.linux_public_ips[count.index]}\""],
+      [for pb in local.ubuntu_playbooks : format(
         "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -u %s --key-file %s -T 300 -i '%s,' %s",
         local.linux_users[count.index],
         var.private_key_path,
