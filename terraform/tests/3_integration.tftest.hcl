@@ -53,11 +53,11 @@
 
 #   # Public Route Table
 #   assert {
-#     condition     = length(module.vpc.public_route_table_ids) > 0
+#     condition     = length(module.vpc.public_rt_ids) > 0
 #     error_message = "At least one public route table must exist."
 #   }
 #   assert {
-#     condition     = length(keys(module.vpc.public_route_table_association_ids)) > 0
+#     condition     = length(keys(module.vpc.public_rt_association_ids)) > 0
 #     error_message = "Public subnets must be associated with a route table."
 #   }
 
@@ -99,11 +99,11 @@
 
 #   # Private Route Table
 #   assert {
-#     condition     = module.vpc.private_route_table_id != ""
+#     condition     = module.vpc.private_rt_id != ""
 #     error_message = "Private route table ID must be defined."
 #   }
 #   assert {
-#     condition     = length(module.vpc.private_route_table_association_ids) > 0
+#     condition     = length(module.vpc.private_rt_association_ids) > 0
 #     error_message = "Private subnets must be associated with the private route table."
 #   }
 

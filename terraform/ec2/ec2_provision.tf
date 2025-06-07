@@ -22,12 +22,12 @@ resource "aws_instance" "amazon" {
 }
 
 resource "aws_instance" "ubuntu" {
-  count = 0
+  count = 1
   tags  = { Name = "B2111933 Ubuntu ${count.index + 1}" }
 
   ami                    = var.ami_free_ubuntu
   instance_type          = var.instance_type_free
-  subnet_id              = var.public_subnet[1]
+  subnet_id              = var.public_subnet[0]
   vpc_security_group_ids = [var.security_group["sg_linux"]]
 
   key_name = var.private_key_name

@@ -8,7 +8,7 @@ variable "vpc_cidr" {
   default = "10.0.0.0/16"
 }
 
-variable "subnets" {
+variable "public_subnets" {
   type = list(object({
     cidr_block        = string
     availability_zone = string
@@ -39,14 +39,14 @@ variable "private_subnets" {
     availability_zone = string
   }))
   default = [
-    {
-      cidr_block        = "10.0.101.0/24"
-      availability_zone = "us-east-1a"
-    },
-    {
-      cidr_block        = "10.0.102.0/24"
-      availability_zone = "us-east-1a"
-    },
+    # {
+    #   cidr_block        = "10.0.101.0/24"
+    #   availability_zone = "us-east-1a"
+    # },
+    # {
+    #   cidr_block        = "10.0.102.0/24"
+    #   availability_zone = "us-east-1a"
+    # },
     # {
     #   cidr_block        = "10.0.103.0/24"
     #   availability_zone = "us-east-1a"
@@ -102,18 +102,12 @@ variable "security_groups_config" {
           protocol    = "tcp"
           cidr_blocks = ["0.0.0.0/0"]
         },
-        {
-          from_port   = 5000
-          to_port     = 5000
-          protocol    = "tcp"
-          cidr_blocks = ["0.0.0.0/0"]
-        },
-        {
-          from_port   = 5173
-          to_port     = 5173
-          protocol    = "tcp"
-          cidr_blocks = ["0.0.0.0/0"]
-        },
+        # {
+        #   from_port   = 5173
+        #   to_port     = 5173
+        #   protocol    = "tcp"
+        #   cidr_blocks = ["0.0.0.0/0"]
+        # },
         {
           from_port   = -1
           to_port     = -1
@@ -151,12 +145,12 @@ variable "security_groups_config" {
           protocol    = "tcp"
           cidr_blocks = ["0.0.0.0/0"]
         },
-        {
-          from_port   = 5173
-          to_port     = 5173
-          protocol    = "tcp"
-          cidr_blocks = ["0.0.0.0/0"]
-        },
+        # {
+        #   from_port   = 5173
+        #   to_port     = 5173
+        #   protocol    = "tcp"
+        #   cidr_blocks = ["0.0.0.0/0"]
+        # },
         {
           from_port   = 5986
           to_port     = 5986
