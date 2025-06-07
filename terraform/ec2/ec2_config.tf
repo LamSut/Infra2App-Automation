@@ -3,10 +3,9 @@ locals {
   # Linux
   amazon_public_ips = concat(aws_instance.amazon[*].public_ip)
   ubuntu_public_ips = concat(aws_instance.ubuntu[*].public_ip)
-  linux_users = concat(
-    [for i in aws_instance.amazon : "ec2-user"],
-    [for i in aws_instance.ubuntu : "ubuntu"]
-  )
+  amazon_users      = concat([for i in aws_instance.amazon : "ec2-user"])
+  ubuntu_users      = concat([for i in aws_instance.ubuntu : "ubuntu"])
+
   # Windows
   windows_public_ips = aws_instance.windows[*].public_ip
   windows_users      = [for i in aws_instance.windows : "Administrator"]
@@ -34,7 +33,7 @@ resource "null_resource" "amazon_config" {
       ["echo \"Running Ansible playbooks on Amazon instance with IP: ${local.amazon_public_ips[count.index]}\""],
       [for pb in local.amazon_playbooks : format(
         "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -u %s --key-file %s -T 300 -i '%s,' %s",
-        local.linux_users[count.index],
+        local.amazon_users[count.index],
         var.private_key_path,
         local.amazon_public_ips[count.index],
         pb
@@ -54,7 +53,7 @@ resource "null_resource" "ubuntu_config" {
       ["echo \"Running Ansible playbooks on Ubuntu instance with IP: ${local.ubuntu_public_ips[count.index]}\""],
       [for pb in local.ubuntu_playbooks : format(
         "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -u %s --key-file %s -T 300 -i '%s,' %s",
-        local.linux_users[count.index],
+        local.ubuntu_users[count.index],
         var.private_key_path,
         local.ubuntu_public_ips[count.index],
         pb
