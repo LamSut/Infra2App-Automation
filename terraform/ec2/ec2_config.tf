@@ -1,5 +1,4 @@
 # Configuration Management
-
 locals {
   # Linux
   linux_public_ips = concat(

@@ -87,78 +87,78 @@ output "public_rt_association_ids" {
   value       = { for key, assoc in aws_route_table_association.public_rt_assoc : key => assoc.id }
 }
 
-// Private Subnet
-output "private_subnet_ids" {
-  description = "IDs for private subnets"
-  value       = values(aws_subnet.private_subnets)[*].id
-}
+# // Private Subnet
+# output "private_subnet_ids" {
+#   description = "IDs for private subnets"
+#   value       = values(aws_subnet.private_subnets)[*].id
+# }
 
-output "private_subnet_cidrs" {
-  description = "CIDR blocks for private subnets"
-  value       = values(aws_subnet.private_subnets)[*].cidr_block
-}
+# output "private_subnet_cidrs" {
+#   description = "CIDR blocks for private subnets"
+#   value       = values(aws_subnet.private_subnets)[*].cidr_block
+# }
 
-output "private_subnet_azs" {
-  description = "Availability zones for private subnets"
-  value       = values(aws_subnet.private_subnets)[*].availability_zone
-}
+# output "private_subnet_azs" {
+#   description = "Availability zones for private subnets"
+#   value       = values(aws_subnet.private_subnets)[*].availability_zone
+# }
 
-output "private_subnet_tags" {
-  description = "Tags for each private subnet"
-  value       = { for key, subnet in aws_subnet.private_subnets : key => subnet.tags }
-}
+# output "private_subnet_tags" {
+#   description = "Tags for each private subnet"
+#   value       = { for key, subnet in aws_subnet.private_subnets : key => subnet.tags }
+# }
 
-output "private_subnet_count" {
-  description = "Count of private subnets"
-  value       = length(aws_subnet.private_subnets)
-}
+# output "private_subnet_count" {
+#   description = "Count of private subnets"
+#   value       = length(aws_subnet.private_subnets)
+# }
 
-// NAT
-output "nat_eip_public_ip" {
-  description = "Elastic IP address assigned to the NAT Gateway"
-  value       = aws_eip.nat_eip.public_ip
-}
+# // NAT
+# output "nat_eip_public_ip" {
+#   description = "Elastic IP address assigned to the NAT Gateway"
+#   value       = aws_eip.nat_eip.public_ip
+# }
 
-output "nat_gateway_id" {
-  description = "ID of the NAT Gateway"
-  value       = aws_nat_gateway.nat_gw.id
-}
+# output "nat_gateway_id" {
+#   description = "ID of the NAT Gateway"
+#   value       = aws_nat_gateway.nat_gw.id
+# }
 
-output "nat_gateway_allocation_id" {
-  description = "Allocation ID for the NAT Gateway"
-  value       = aws_nat_gateway.nat_gw.allocation_id
-}
+# output "nat_gateway_allocation_id" {
+#   description = "Allocation ID for the NAT Gateway"
+#   value       = aws_nat_gateway.nat_gw.allocation_id
+# }
 
-output "nat_gateway_subnet_id" {
-  description = "Subnet ID where the NAT Gateway is deployed"
-  value       = aws_nat_gateway.nat_gw.subnet_id
-}
+# output "nat_gateway_subnet_id" {
+#   description = "Subnet ID where the NAT Gateway is deployed"
+#   value       = aws_nat_gateway.nat_gw.subnet_id
+# }
 
-output "nat_gateway_tags" {
-  description = "Tags associated with the NAT Gateway"
-  value       = aws_nat_gateway.nat_gw.tags
-}
+# output "nat_gateway_tags" {
+#   description = "Tags associated with the NAT Gateway"
+#   value       = aws_nat_gateway.nat_gw.tags
+# }
 
-// Private Route Table
-output "private_rt_id" {
-  description = "ID of the private route table"
-  value       = aws_route_table.private_rt.id
-}
+# // Private Route Table
+# output "private_rt_id" {
+#   description = "ID of the private route table"
+#   value       = aws_route_table.private_rt.id
+# }
 
-output "private_rt_route" {
-  description = "Route configured in the private route table"
-  value       = aws_route_table.private_rt.route
-}
+# output "private_rt_route" {
+#   description = "Route configured in the private route table"
+#   value       = aws_route_table.private_rt.route
+# }
 
-output "private_rt_tags" {
-  description = "Tags associated with the private route table"
-  value       = aws_route_table.private_rt.tags
-}
+# output "private_rt_tags" {
+#   description = "Tags associated with the private route table"
+#   value       = aws_route_table.private_rt.tags
+# }
 
-output "private_rt_association_ids" {
-  description = "IDs for associations between private subnets and the route table"
-  value       = { for key, assoc in aws_route_table_association.private_rt_assoc : key => assoc.id }
-}
+# output "private_rt_association_ids" {
+#   description = "IDs for associations between private subnets and the route table"
+#   value       = { for key, assoc in aws_route_table_association.private_rt_assoc : key => assoc.id }
+# }
 
 // Security Group
 output "sg_ids" {

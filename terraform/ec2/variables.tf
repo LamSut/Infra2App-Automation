@@ -20,7 +20,7 @@ variable "security_group" {
 
 variable "public_subnet" {}
 
-variable "private_subnet" {}
+# variable "private_subnet" {}
 
 # Free AMIs
 variable "ami_free_amazon" {
