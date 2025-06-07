@@ -1,6 +1,11 @@
 # IaaS Automation
 
-Automated AWS infrastructure management with Terraform and Ansible, integrated with GitHub Actions for CI/CD.  
-Currently continuing development from: [B2111933 - Specialized Topics](https://github.com/LamSut/Specialized-Topics)
+The project uses an automation-based approach to manage cloud infrastructure with common DevOps tools.  
+This approach helps maintain a consistent and manageable system by following these main steps:
+* Containerization: Packaging applications into Docker containers enables easy deployment and management across environments.
+* Infrastructure Provisioning: AWS resources like EC2, VPC, IAM, S3, DynamoDB, etc. are created using Terraform.
+* Configuration Management: After the infrastructure is ready, Ansible is used to set up applications.
+* CI/CD: GitHub Actions runs the automation pipeline for testing, reviewing and deploying automatically.
 
-![Model-Concept drawio](https://github.com/user-attachments/assets/fb8c165c-01a5-4faf-bdfc-b5614ec4bb11)
+---
+![model-detail](https://github.com/user-attachments/assets/8a4e30d0-a9f4-4853-bd65-efa954c776f9)
