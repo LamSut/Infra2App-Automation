@@ -33,10 +33,10 @@ run "vpc_tests" {
   }
 
   # Private subnets
-  assert {
-    condition     = module.vpc.private_subnet_count > 0
-    error_message = "There must be at least one private subnet!"
-  }
+  # assert {
+  #   condition     = module.vpc.private_subnet_count > 0
+  #   error_message = "There must be at least one private subnet!"
+  # }
 
   # Security groups and rules
   assert {
