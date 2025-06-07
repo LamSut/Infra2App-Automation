@@ -1,6 +1,6 @@
 #Provisioning
 resource "aws_instance" "amazon" {
-  count = 1
+  count = 0
   tags  = { Name = "B2111933 Amazon Linux ${count.index + 1}" }
 
   ami                    = var.ami_free_amazon
