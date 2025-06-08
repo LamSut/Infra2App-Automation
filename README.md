@@ -7,5 +7,4 @@ This approach helps maintain a consistent and manageable system by following the
 * Configuration Management: After the infrastructure is ready, Ansible is used to set up applications.
 * CI/CD: GitHub Actions runs the automation pipeline for testing, reviewing and deploying automatically.
 
----
-![model-detail](https://github.com/user-attachments/assets/8a4e30d0-a9f4-4853-bd65-efa954c776f9)
+![model-detail](https://github.com/user-attachments/assets/5ab2891b-8d32-4f8d-876c-e79743818015)
