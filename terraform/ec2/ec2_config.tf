@@ -24,6 +24,12 @@ locals {
 
 resource "null_resource" "amazon_config" {
   count = length(local.amazon_public_ips)
+
+  # For app updates
+  triggers = {
+    always_run = timestamp()
+  }  
+
   depends_on = [
     aws_instance.amazon,
   ]
