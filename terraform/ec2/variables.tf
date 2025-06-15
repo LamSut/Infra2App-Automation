@@ -46,7 +46,7 @@ variable "instance_type_free" {
 
 # Setup for Ansible
 variable "setup_linux" {
-  default = "../ansible/setup/linux.sh"
+  default = "../ansible/setup/linux.sh" # This script has Git & Docker
 }
 
 variable "setup_windows" {
