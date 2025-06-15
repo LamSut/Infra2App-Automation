@@ -1,7 +1,8 @@
-#Provisioning
-resource "aws_instance" "amazon" {
-  count = 1
-  tags  = { Name = "B2111933 Amazon Linux ${count.index + 1}" }
+# Infrastructure Provisioning
+
+# Hack Website with Amazon Linux
+resource "aws_instance" "hack" {
+  tags = { Name = "B2111933 Hack Website" }
 
   ami                    = var.ami_free_amazon
   instance_type          = var.instance_type_free
@@ -20,9 +21,9 @@ resource "aws_instance" "amazon" {
   }
 }
 
-resource "aws_instance" "ubuntu" {
-  count = 1
-  tags  = { Name = "B2111933 Ubuntu ${count.index + 1}" }
+# Pizza Website with Ubuntu
+resource "aws_instance" "pizza" {
+  tags = { Name = "B2111933 Pizza Website" }
 
   ami                    = var.ami_free_ubuntu
   instance_type          = var.instance_type_free
@@ -39,17 +40,4 @@ resource "aws_instance" "ubuntu" {
       host        = self.public_ip
     }
   }
-}
-
-resource "aws_instance" "windows" {
-  count = 0
-  tags  = { Name = "B2111933 Windows ${count.index + 1}" }
-
-  ami                    = var.ami_free_windows
-  instance_type          = var.instance_type_free
-  subnet_id              = var.public_subnet[0]
-  vpc_security_group_ids = [var.security_group["sg_windows"]]
-
-  key_name  = var.private_key_name
-  user_data = file(var.setup_windows)
 }

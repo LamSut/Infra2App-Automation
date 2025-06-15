@@ -1,97 +1,70 @@
 # Configuration Management
 locals {
-  # Linux
-  amazon_public_ips = concat(aws_instance.amazon[*].public_ip)
-  ubuntu_public_ips = concat(aws_instance.ubuntu[*].public_ip)
-  amazon_users      = concat([for i in aws_instance.amazon : "ec2-user"])
-  ubuntu_users      = concat([for i in aws_instance.ubuntu : "ubuntu"])
+  # Hack Website
+  hack_public_ip = aws_instance.hack.public_ip
+  hack_user      = "ec2-user"
 
-  # Windows
-  windows_public_ips = aws_instance.windows[*].public_ip
-  windows_users      = [for i in aws_instance.windows : "Administrator"]
-
-  # Ansible Playbooks
-  amazon_playbooks = [
+  # Hack Website Playbooks
+  hack_playbooks = [
     "${var.pb_linux_path}/hack-website/install.yaml",
   ]
-  ubuntu_playbooks = [
+
+  # Pizza Website
+  pizza_public_ip = aws_instance.pizza.public_ip
+  pizza_user      = "ubuntu"
+
+  # Pizza Website Playbooks
+  pizza_playbooks = [
     "${var.pb_linux_path}/pizza-website/install.yaml",
-  ]
-  windows_playbooks = [
-    "${var.pb_windows_path}/nginx/install.yaml"
   ]
 }
 
-resource "null_resource" "amazon_config" {
-  count = length(local.amazon_public_ips)
-
+# Hack Website Configuration Management
+resource "null_resource" "hack_config" {
   # For app updates
   triggers = {
     always_run = timestamp()
-  }  
+  }
 
   depends_on = [
-    aws_instance.amazon,
+    aws_instance.hack,
   ]
 
   provisioner "local-exec" {
     command = join(" && ", concat(
-      ["echo \"Running Ansible playbooks on Amazon instance with IP: ${local.amazon_public_ips[count.index]}\""],
-      [for pb in local.amazon_playbooks : format(
+      ["echo \"Running Ansible playbooks on Hack instance with IP: ${local.hack_public_ip}\""],
+      [for pb in local.hack_playbooks : format(
         "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -u %s --key-file %s -T 300 -i '%s,' %s",
-        local.amazon_users[count.index],
+        local.hack_user,
         var.private_key_path,
-        local.amazon_public_ips[count.index],
+        local.hack_public_ip,
         pb
       )]
     ))
   }
 }
 
-resource "null_resource" "ubuntu_config" {
-  count = length(local.ubuntu_public_ips)
+# Pizza Website Configuration Management
+resource "null_resource" "pizza_config" {
+  # For app updates
+  triggers = {
+    always_run = timestamp()
+  }
+
   depends_on = [
-    aws_instance.ubuntu,
+    aws_instance.pizza,
   ]
 
   provisioner "local-exec" {
     command = join(" && ", concat(
-      ["echo \"Running Ansible playbooks on Ubuntu instance with IP: ${local.ubuntu_public_ips[count.index]}\""],
-      [for pb in local.ubuntu_playbooks : format(
+      ["echo \"Running Ansible playbooks on Pizza instance with IP: ${local.pizza_public_ip}\""],
+      [for pb in local.pizza_playbooks : format(
         "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -u %s --key-file %s -T 300 -i '%s,' %s",
-        local.ubuntu_users[count.index],
+        local.pizza_user,
         var.private_key_path,
-        local.ubuntu_public_ips[count.index],
+        local.pizza_public_ip,
         pb
       )]
     ))
-  }
-}
-
-resource "null_resource" "windows_config" {
-  count      = length(local.windows_public_ips)
-  depends_on = [aws_instance.windows]
-
-  provisioner "local-exec" {
-    command = <<EOT
-      echo "Waiting for Windows startup (60s)..."
-      sleep 60
-      while ! nc -z ${local.windows_public_ips[count.index]} 5986; do
-        echo "Waiting for Windows to be ready..."
-        sleep 10
-      done
-      echo "Windows is ready!"
-
-      echo "Retrieving Windows password..."
-      aws ec2 get-password-data --instance-id ${aws_instance.windows[count.index].id} --priv-launch-key ${var.private_key_path} --output text | tr -d '\r\n' > ../keys/${aws_instance.windows[count.index].id}.txt
-
-      echo "Running Ansible playbooks on IP: ${local.windows_public_ips[count.index]}"
-      for pb in ${join(" ", local.windows_playbooks)}; do
-        ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook \
-          -u ${local.windows_users[count.index]} --connection=winrm \
-          --extra-vars "ansible_winrm_server_cert_validation=ignore ansible_winrm_password=$(awk '{print $2}' ../keys/${aws_instance.windows[count.index].id}.txt | tr -d '\r')" \
-          -T 600 -i '${local.windows_public_ips[count.index]},' "$pb"
-      done
-    EOT
   }
 }
