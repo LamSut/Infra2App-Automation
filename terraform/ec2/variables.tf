@@ -35,7 +35,7 @@ variable "ami_free_ubuntu" {
 
 variable "ami_free_windows" {
   type    = string
-  default = "ami-001adaa5c3ee02e10"
+  default = "ami-02b60b5095d1e5227"
 }
 
 # Free Instance Types
