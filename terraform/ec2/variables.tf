@@ -41,7 +41,7 @@ variable "ami_free_windows" {
 # Free Instance Types
 variable "instance_type_free" {
   type    = string
-  default = "t2.micro"
+  default = "t3.micro"
 }
 
 # Setup for Ansible
