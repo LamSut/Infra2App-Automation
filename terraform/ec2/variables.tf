@@ -25,12 +25,12 @@ variable "public_subnet" {}
 # Free AMIs
 variable "ami_free_amazon" {
   type    = string
-  default = "ami-08b5b3a93ed654d19"
+  default = "ami-05ffe3c48a9991133"
 }
 
 variable "ami_free_ubuntu" {
   type    = string
-  default = "ami-04b4f1a9cf54c11d0"
+  default = "ami-020cba7c55df1f615"
 }
 
 variable "ami_free_windows" {
@@ -41,7 +41,7 @@ variable "ami_free_windows" {
 # Free Instance Types
 variable "instance_type_free" {
   type    = string
-  default = "t3.micro"
+  default = "t3.small"
 }
 
 # Setup for Ansible
