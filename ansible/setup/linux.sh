@@ -79,7 +79,7 @@ echo "Git, Docker, and Docker Compose v1 installation complete!"
 echo "You may need to log out and back in to use Docker without sudo."
 
 # Preparation for using Docker containers
-echo "Cloning Play-with-Containers repository..."
+echo "Cloning ContainYourself repository..."
 mkdir -p ~/containers
-git clone --branch main https://github.com/LamSut/Play-with-Containers.git ~/containers
+git clone --branch main https://github.com/LamSut/ContainYourself.git ~/containers
 echo "Now you can play with containers!"
