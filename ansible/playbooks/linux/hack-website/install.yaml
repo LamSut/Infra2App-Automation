@@ -16,13 +16,13 @@
       environment:
         PATH: "{{ ansible_env.PATH }}"
         
-    - name: Get deployment log
+    - name: Get Ethical Hacking website deployment log
       shell: cat hack.log
       args:
         chdir: /home/{{ ansible_user }}/containers/4.compose/hack
       register: hack_log
 
-    - name: Print deployment log
+    - name: Print Ethical Hacking website deployment log
       debug:
         msg: "{{ hack_log.stdout_lines }}"
 
