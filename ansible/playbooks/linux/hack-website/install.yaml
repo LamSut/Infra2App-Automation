@@ -10,7 +10,7 @@
         state: file
 
     - name: Build & deploy the Ethical Hacking website
-      shell: ./ansible.sh
+      ansible.builtin.shell: ./ansible.sh
       args:
         chdir: /home/{{ ansible_user }}/containers/4.compose/hack
         pty: true
