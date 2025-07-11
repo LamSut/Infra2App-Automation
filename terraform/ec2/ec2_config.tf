@@ -34,7 +34,7 @@ resource "null_resource" "hack_config" {
     command = join(" && ", concat(
       ["echo \"Running Ansible playbooks on Hack instance with IP: ${local.hack_public_ip}\""],
       [for pb in local.hack_playbooks : format(
-        "ANSIBLE_HOST_KEY_CHECKING=False python3 -m ansible playbook -u %s --key-file %s -T 300 -i '%s,' %s",
+        "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -u %s --key-file %s -T 300 -i '%s,' %s",
         local.hack_user,
         var.private_key_path,
         local.hack_public_ip,
@@ -59,7 +59,7 @@ resource "null_resource" "pizza_config" {
     command = join(" && ", concat(
       ["echo \"Running Ansible playbooks on Pizza instance with IP: ${local.pizza_public_ip}\""],
       [for pb in local.pizza_playbooks : format(
-        "ANSIBLE_HOST_KEY_CHECKING=False python3 -m ansible playbook -u %s --key-file %s -T 300 -i '%s,' %s",
+        "ANSIBLE_HOST_KEY_CHECKING=False ansible-playbook -u %s --key-file %s -T 300 -i '%s,' %s",
         local.pizza_user,
         var.private_key_path,
         local.pizza_public_ip,
