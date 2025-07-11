@@ -15,8 +15,7 @@
         chdir: /home/{{ ansible_user }}/containers/4.compose/hack
       environment:
         PATH: "{{ ansible_env.PATH }}"
-
-    
+        
     - name: Get deployment log
       shell: cat hack.log
       args:
