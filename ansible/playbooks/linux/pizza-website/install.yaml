@@ -5,7 +5,7 @@
   tasks:
     - name: Ensure Bash script is executable
       file:
-        path: /home/{{ ansible_user }}/containers/4.compose/pizza/start-ansible.sh
+        path: /home/{{ ansible_user }}/containers/4.compose/pizza/ansible.sh
         mode: '0755'
         state: file
 
