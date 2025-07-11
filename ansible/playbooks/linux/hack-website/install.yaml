@@ -9,11 +9,12 @@
         mode: '0755'
         state: file
 
-    - name: Build & deploy the Ethical Hacking website
-      ansible.builtin.shell: ./ansible.sh
-      args:
-        chdir: /home/{{ ansible_user }}/containers/4.compose/hack
-        pty: true
-      register: result
-      environment:
-        PATH: "{{ ansible_env.PATH }}"
+- name: Build & deploy the Ethical Hacking website
+  shell: script -q -c "./ansible.sh" /dev/null
+  args:
+    chdir: /home/{{ ansible_user }}/containers/4.compose/hack
+    executable: /bin/bash
+  register: result
+  environment:
+    PATH: "{{ ansible_env.PATH }}"
+
