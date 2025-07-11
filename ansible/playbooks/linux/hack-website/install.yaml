@@ -10,11 +10,20 @@
         state: file
 
     - name: Build & deploy the Ethical Hacking website
-      shell: script -q -c "./ansible.sh" /dev/null
+      shell: ./ansible.sh
       args:
         chdir: /home/{{ ansible_user }}/containers/4.compose/hack
-        executable: /bin/bash
-      register: result
       environment:
         PATH: "{{ ansible_env.PATH }}"
+
+    
+    - name: Get deployment log
+      shell: cat hack.log
+      args:
+        chdir: /home/{{ ansible_user }}/containers/4.compose/hack
+      register: hack_log
+
+    - name: Print deployment log
+      debug:
+        msg: "{{ hack_log.stdout_lines }}"
 
