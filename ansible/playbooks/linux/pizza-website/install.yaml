@@ -12,7 +12,7 @@
     - name: Build & Run the Pizza website
       shell: |
         cd /home/{{ ansible_user }}/containers/4.compose/pizza
-        ./start-ansible.sh
+        ./ansible.sh
       args:
         chdir: /home/{{ ansible_user }}/containers/4.compose/pizza
       environment:
