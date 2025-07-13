@@ -3,7 +3,6 @@
 ###################################
 
 resource "aws_instance" "amazon" {
-
   count = 0
   tags  = { Name = "B2111933 Amazon Linux ${count.index + 1}" }
 
@@ -28,11 +27,9 @@ resource "aws_instance" "amazon" {
       host        = self.public_ip
     }
   }
-
 }
 
 resource "aws_instance" "ubuntu" {
-
   count = 0
   tags  = { Name = "B2111933 Ubuntu ${count.index + 1}" }
 
@@ -57,11 +54,9 @@ resource "aws_instance" "ubuntu" {
       host        = self.public_ip
     }
   }
-
 }
 
 resource "aws_instance" "windows" {
-
   count = 0
   tags  = { Name = "B2111933 Windows ${count.index + 1}" }
 
@@ -77,7 +72,6 @@ resource "aws_instance" "windows" {
 
   key_name  = var.private_key_name
   user_data = file(var.setup_windows)
-
 }
 
 
@@ -86,7 +80,6 @@ resource "aws_instance" "windows" {
 ################################
 
 locals {
-
   amazon_public_ips = concat(aws_instance.amazon[*].public_ip)
   amazon_users      = concat([for i in aws_instance.amazon : "ec2-user"])
 
@@ -107,11 +100,9 @@ locals {
   windows_playbooks = [
     "${var.pb_windows_path}/nginx/install.yaml"
   ]
-
 }
 
 resource "null_resource" "amazon_config" {
-
   count = length(local.amazon_public_ips)
 
   depends_on = [aws_instance.amazon]
@@ -128,11 +119,9 @@ resource "null_resource" "amazon_config" {
       )]
     ))
   }
-
 }
 
 resource "null_resource" "ubuntu_config" {
-
   count = length(local.ubuntu_public_ips)
 
   depends_on = [aws_instance.ubuntu]
@@ -149,11 +138,9 @@ resource "null_resource" "ubuntu_config" {
       )]
     ))
   }
-
 }
 
 resource "null_resource" "windows_config" {
-
   count = length(local.windows_public_ips)
 
   depends_on = [aws_instance.windows]
@@ -180,6 +167,5 @@ resource "null_resource" "windows_config" {
       done
     EOT
   }
-
 }
 

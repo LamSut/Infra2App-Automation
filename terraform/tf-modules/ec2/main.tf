@@ -3,7 +3,6 @@
 ###################################
 
 resource "aws_instance" "ec2_hack" {
-
   tags = { Name = "B2111933 Hack Website" }
 
   ami           = data.aws_ami.ami_amazon_2023.id
@@ -27,21 +26,17 @@ resource "aws_instance" "ec2_hack" {
       host        = self.public_ip
     }
   }
-
 }
 
 resource "aws_eip" "eip_hack" {
-
   tags = { Name = "B2111933 Hack Website EIP" }
 
   instance   = aws_instance.ec2_hack.id
   depends_on = [aws_instance.ec2_hack]
-
 }
 
 
 resource "aws_instance" "ec2_pizza" {
-
   tags = { Name = "B2111933 Pizza Website" }
 
   ami           = data.aws_ami.ami_ubuntu_2404.id
@@ -65,16 +60,13 @@ resource "aws_instance" "ec2_pizza" {
       host        = self.public_ip
     }
   }
-
 }
 
 resource "aws_eip" "eip_pizza" {
-
   tags = { Name = "B2111933 Pizza Website EIP" }
 
   instance   = aws_instance.ec2_pizza.id
   depends_on = [aws_instance.ec2_pizza]
-
 }
 
 
@@ -83,7 +75,6 @@ resource "aws_eip" "eip_pizza" {
 ################################
 
 locals {
-
   hack_public_ip = aws_eip.eip_hack.public_ip
   hack_user      = "ec2-user"
 
@@ -97,11 +88,9 @@ locals {
   pizza_playbooks = [
     "${var.pb_linux_path}/pizza-website/install.yaml",
   ]
-
 }
 
 resource "null_resource" "hack_config" {
-
   triggers = {
     always_run = timestamp()
   }
@@ -122,12 +111,10 @@ resource "null_resource" "hack_config" {
       )]
     ))
   }
-
 }
 
 
 resource "null_resource" "pizza_config" {
-
   triggers = {
     always_run = timestamp()
   }
@@ -148,6 +135,5 @@ resource "null_resource" "pizza_config" {
       )]
     ))
   }
-
 }
 
