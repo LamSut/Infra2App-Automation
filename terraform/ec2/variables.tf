@@ -1,4 +1,7 @@
-# Keys
+###################
+### Access Keys ###
+###################
+
 variable "private_key_name" {
   type    = string
   default = "b2111933-pair"
@@ -9,7 +12,10 @@ variable "private_key_path" {
   default = "../keys/b2111933-pair.pem"
 }
 
-# Networking
+##################
+### Networking ###
+##################
+
 variable "security_group" {
   type = map(string)
   default = {
@@ -19,10 +25,13 @@ variable "security_group" {
 }
 
 variable "public_subnet" {}
-
 # variable "private_subnet" {}
 
-# Free AMIs
+
+#################
+### Free AMIs ###
+#################
+
 variable "ami_free_amazon" {
   type    = string
   default = "ami-05ffe3c48a9991133"
@@ -38,13 +47,21 @@ variable "ami_free_windows" {
   default = "ami-02b60b5095d1e5227"
 }
 
-# Free Instance Types
+
+###########################
+### Free Instance Types ###
+###########################
+
 variable "instance_type_free" {
   type    = string
   default = "t3.small"
 }
 
-# Setup for Ansible
+
+#########################
+### Setup for Ansible ###
+#########################
+
 variable "setup_linux" {
   default = "../ansible/setup/linux.sh" # This script has Git & Docker
 }
@@ -53,7 +70,10 @@ variable "setup_windows" {
   default = "../ansible/setup/windows.ps1"
 }
 
-# Ansible Playbooks
+#########################
+### Ansible Playbooks ###
+#########################
+
 variable "pb_linux_path" {
   default = "../ansible/playbooks/linux"
 }

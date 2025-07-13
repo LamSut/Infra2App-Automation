@@ -1,27 +1,78 @@
-# Configuration Management
+###################################
+### Infrastructure Provisioning ###
+###################################
+
+resource "aws_instance" "hack" {
+
+  tags = { Name = "B2111933 Hack Website" }
+
+  ami                    = var.ami_free_amazon
+  instance_type          = var.instance_type_free
+  subnet_id              = var.public_subnet[0]
+  vpc_security_group_ids = [var.security_group["sg_linux"]]
+
+  key_name = var.private_key_name
+
+  provisioner "remote-exec" {
+    script = var.setup_linux
+    connection {
+      type        = "ssh"
+      user        = "ec2-user"
+      private_key = file(var.private_key_path)
+      host        = self.public_ip
+    }
+  }
+
+}
+
+resource "aws_instance" "pizza" {
+
+  tags = { Name = "B2111933 Pizza Website" }
+
+  ami                    = var.ami_free_ubuntu
+  instance_type          = var.instance_type_free
+  subnet_id              = var.public_subnet[0]
+  vpc_security_group_ids = [var.security_group["sg_linux"]]
+
+  key_name = var.private_key_name
+
+  provisioner "remote-exec" {
+    script = var.setup_linux
+    connection {
+      type        = "ssh"
+      user        = "ubuntu"
+      private_key = file(var.private_key_path)
+      host        = self.public_ip
+    }
+  }
+
+}
+
+
+################################
+### Configuration Management ###
+################################
+
 locals {
-  # Hack Website
+
   hack_public_ip = aws_instance.hack.public_ip
   hack_user      = "ec2-user"
 
-  # Hack Website Playbooks
   hack_playbooks = [
     "${var.pb_linux_path}/hack-website/install.yaml",
   ]
 
-  # Pizza Website
   pizza_public_ip = aws_instance.pizza.public_ip
   pizza_user      = "ubuntu"
 
-  # Pizza Website Playbooks
   pizza_playbooks = [
     "${var.pb_linux_path}/pizza-website/install.yaml",
   ]
+
 }
 
-# Hack Website Configuration Management
 resource "null_resource" "hack_config" {
-  # For app updates
+
   triggers = {
     always_run = timestamp()
   }
@@ -42,11 +93,12 @@ resource "null_resource" "hack_config" {
       )]
     ))
   }
+
 }
 
-# Pizza Website Configuration Management
+
 resource "null_resource" "pizza_config" {
-  # For app updates
+
   triggers = {
     always_run = timestamp()
   }
@@ -67,4 +119,6 @@ resource "null_resource" "pizza_config" {
       )]
     ))
   }
+
 }
+

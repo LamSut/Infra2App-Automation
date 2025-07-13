@@ -1,172 +1,226 @@
-// Hack Website Instance
+#############################
+### Hack Website Instance ###
+#############################
+
 output "hack_instance_id" {
   description = "Hack website instance ID"
   value       = aws_instance.hack.id
 }
+
 output "hack_public_ip" {
   description = "Public IP addresses of Hack website instance"
   value       = aws_instance.hack.public_ip
 }
+
 output "hack_private_ip" {
   description = "Private IP addresses of Hack website instance"
   value       = aws_instance.hack.private_ip
 }
+
 output "hack_public_dns" {
   description = "Public DNS names of Hack website instance"
   value       = aws_instance.hack.public_dns
 }
+
 output "hack_private_dns" {
   description = "Private DNS names of Hack website instance"
   value       = aws_instance.hack.private_dns
 }
+
 output "hack_instance_ami" {
   description = "AMI used by Hack website instance"
   value       = aws_instance.hack.ami
 }
+
 output "hack_instance_type" {
   description = "Instance type for Hack website instance"
   value       = aws_instance.hack.instance_type
 }
+
 output "hack_key_name" {
   description = "Key pair name used by Hack website instance"
   value       = aws_instance.hack.key_name
 }
+
 output "hack_subnet_id" {
   description = "Subnet ID where the Hack website instance is deployed"
   value       = aws_instance.hack.subnet_id
 }
+
 output "hack_security_group_ids" {
   description = "Security Group IDs attached to Hack website instance"
   value       = aws_instance.hack.vpc_security_group_ids
 }
 
-// Pizza Website Instance
+##############################
+### Pizza Website Instance ###
+##############################
+
 output "pizza_instance_id" {
   description = "Pizza website instance ID"
   value       = aws_instance.pizza.id
 }
+
 output "pizza_public_ip" {
   description = "Public IP addresses of Pizza website instance"
   value       = aws_instance.pizza.public_ip
 }
+
 output "pizza_private_ip" {
   description = "Private IP addresses of Pizza website instance"
   value       = aws_instance.pizza.private_ip
 }
+
 output "pizza_public_dns" {
   description = "Public DNS names of Pizza website instance"
   value       = aws_instance.pizza.public_dns
 }
+
 output "pizza_private_dns" {
   description = "Private DNS names of Pizza website instance"
   value       = aws_instance.pizza.private_dns
 }
+
 output "pizza_instance_ami" {
   description = "AMI used by Pizza website instance"
   value       = aws_instance.pizza.ami
 }
+
 output "pizza_instance_type" {
   description = "Instance type for Pizza website instance"
   value       = aws_instance.pizza.instance_type
 }
+
 output "pizza_key_name" {
   description = "Key pair name used by Pizza website instance"
   value       = aws_instance.pizza.key_name
 }
+
 output "pizza_subnet_id" {
   description = "Subnet ID where the Pizza website instance is deployed"
   value       = aws_instance.pizza.subnet_id
 }
+
 output "pizza_security_group_ids" {
   description = "Security Group IDs attached to Pizza website instance"
   value       = aws_instance.pizza.vpc_security_group_ids
 }
 
-// Amazon Linux Instance
+
+##############################
+### Amazon Linux Instances ###
+##############################
+
 output "amazon_instance_ids" {
   description = "Amazon Linux instance IDs"
   value       = aws_instance.amazon[*].id
 }
+
 output "amazon_public_ips" {
   description = "Public IP addresses of Amazon Linux instances"
   value       = aws_instance.amazon[*].public_ip
 }
+
 output "amazon_private_ips" {
   description = "Private IP addresses of Amazon Linux instances"
   value       = aws_instance.amazon[*].private_ip
 }
+
 output "amazon_public_dns" {
   description = "Public DNS names of Amazon Linux instances"
   value       = aws_instance.amazon[*].public_dns
 }
+
 output "amazon_private_dns" {
   description = "Private DNS names of Amazon Linux instances"
   value       = aws_instance.amazon[*].private_dns
 }
+
 output "amazon_instance_ami" {
   description = "AMI used by Amazon Linux instance"
   value       = aws_instance.amazon[*].ami
 }
+
 output "amazon_instance_type" {
   description = "Instance type for Amazon Linux instance"
   value       = aws_instance.amazon[*].instance_type
 }
+
 output "amazon_key_name" {
   description = "Key pair name used by Amazon Linux instance"
   value       = aws_instance.amazon[*].key_name
 }
+
 output "amazon_subnet_id" {
   description = "Subnet ID where the Amazon Linux instance is deployed"
   value       = aws_instance.amazon[*].subnet_id
 }
+
 output "amazon_security_group_ids" {
   description = "Security Group IDs attached to Amazon Linux instance"
   value       = aws_instance.amazon[*].vpc_security_group_ids
 }
 
-// Ubuntu Instance
+
+########################
+### Ubuntu Instances ###
+########################
+
 output "ubuntu_instance_ids" {
   description = "Ubuntu instance IDs"
   value       = aws_instance.ubuntu[*].id
 }
+
 output "ubuntu_public_ips" {
   description = "Public IP addresses of Ubuntu instances"
   value       = aws_instance.ubuntu[*].public_ip
 }
+
 output "ubuntu_private_ips" {
   description = "Private IP addresses of Ubuntu instances"
   value       = aws_instance.ubuntu[*].private_ip
 }
+
 output "ubuntu_public_dns" {
   description = "Public DNS names of Ubuntu instances"
   value       = aws_instance.ubuntu[*].public_dns
 }
+
 output "ubuntu_private_dns" {
   description = "Private DNS names of Ubuntu instances"
   value       = aws_instance.ubuntu[*].private_dns
 }
+
 output "ubuntu_instance_ami" {
   description = "AMI used by Ubuntu instance"
   value       = aws_instance.ubuntu[*].ami
 }
+
 output "ubuntu_instance_type" {
   description = "Instance type for Ubuntu instance"
   value       = aws_instance.ubuntu[*].instance_type
 }
+
 output "ubuntu_key_name" {
   description = "Key pair name used by Ubuntu instance"
   value       = aws_instance.ubuntu[*].key_name
 }
+
 output "ubuntu_subnet_id" {
   description = "Subnet ID where the Ubuntu instance is deployed"
   value       = aws_instance.ubuntu[*].subnet_id
 }
+
 output "ubuntu_security_group_ids" {
   description = "Security Group IDs attached to Ubuntu instance"
   value       = aws_instance.ubuntu[*].vpc_security_group_ids
 }
 
-// Windows Instance
+
+########################
+### Windows Instance ###
+########################
+
 output "windows_instance_ids" {
   description = "Windows instance IDs"
   value       = aws_instance.windows[*].id
