@@ -51,7 +51,7 @@ else
     exit 1
 fi
 
-# Start and Enable Docker
+# Start and enable Docker
 echo "Starting Docker service..."
 sudo systemctl start docker
 sudo systemctl enable docker
@@ -80,6 +80,5 @@ echo "You may need to log out and back in to use Docker without sudo."
 
 # Preparation for using Docker containers
 echo "Cloning ContainYourself repository..."
-mkdir -p ~/containers
-git clone --branch main https://github.com/LamSut/ContainYourself.git ~/containers
+git clone --branch main https://github.com/LamSut/ContainYourself.git
 echo "Now you can play with containers!"

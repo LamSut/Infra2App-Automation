@@ -5,21 +5,21 @@
   tasks:
     - name: Ensure Bash script is executable
       file:
-        path: /home/{{ ansible_user }}/containers/4.compose/hack/ansible.sh
+        path: /home/{{ ansible_user }}/ContainYourself/compose/hack/ansible.sh
         mode: '0755'
         state: file
 
     - name: Build & deploy the Ethical Hacking website
       shell: ./ansible.sh
       args:
-        chdir: /home/{{ ansible_user }}/containers/4.compose/hack
+        chdir: /home/{{ ansible_user }}/ContainYourself/compose/hack
       environment:
         PATH: "{{ ansible_env.PATH }}"
         
     - name: Get Ethical Hacking website deployment log
       shell: cat hack.log
       args:
-        chdir: /home/{{ ansible_user }}/containers/4.compose/hack
+        chdir: /home/{{ ansible_user }}/ContainYourself/compose/hack
       register: hack_log
 
     - name: Print Ethical Hacking website deployment log

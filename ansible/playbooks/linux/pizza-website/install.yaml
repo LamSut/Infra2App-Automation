@@ -5,21 +5,21 @@
   tasks:
     - name: Ensure Bash script is executable
       file:
-        path: /home/{{ ansible_user }}/containers/4.compose/pizza/ansible.sh
+        path: /home/{{ ansible_user }}/ContainYourself/compose/pizza/ansible.sh
         mode: '0755'
         state: file
 
     - name: Build & Deploy the Pizza website
       shell: ./ansible.sh
       args:
-        chdir: /home/{{ ansible_user }}/containers/4.compose/pizza
+        chdir: /home/{{ ansible_user }}/ContainYourself/compose/pizza
       environment:
         PATH: "{{ ansible_env.PATH }}"
 
     - name: Get Pizza website deployment log
       shell: cat pizza.log
       args:
-        chdir: /home/{{ ansible_user }}/containers/4.compose/pizza
+        chdir: /home/{{ ansible_user }}/ContainYourself/compose/pizza
       register: pizza_log
 
     - name: Print Pizza website deployment log
