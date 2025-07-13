@@ -66,6 +66,11 @@ output "pizza_public_ip" {
   value       = aws_eip.eip_pizza.public_ip
 }
 
+output "pizza_admin_url" {
+  description = "Full URL to the Pizza Admin API docs"
+  value       = format("http://%s:3000/api-docs/", aws_eip.eip_pizza.public_ip)
+}
+
 output "pizza_private_ip" {
   description = "Private IP addresses of Pizza website instance"
   value       = aws_instance.ec2_pizza.private_ip
