@@ -9,7 +9,7 @@ variable "private_key_name" {
 
 variable "private_key_path" {
   type    = string
-  default = "../keys/b2111933-pair.pem"
+  default = "../../keys/b2111933-pair.pem"
 }
 
 ##################
@@ -63,11 +63,11 @@ variable "instance_type_free" {
 #########################
 
 variable "setup_linux" {
-  default = "../ansible/setup/linux.sh" # This script has Git & Docker
+  default = "../../ansible/setup/linux.sh" # This script has Git & Docker
 }
 
 variable "setup_windows" {
-  default = "../ansible/setup/windows.ps1"
+  default = "../../ansible/setup/windows.ps1"
 }
 
 #########################
@@ -75,9 +75,9 @@ variable "setup_windows" {
 #########################
 
 variable "pb_linux_path" {
-  default = "../ansible/playbooks/linux"
+  default = "../../ansible/playbooks/linux"
 }
 
 variable "pb_windows_path" {
-  default = "../ansible/playbooks/windows"
+  default = "../../ansible/playbooks/windows"
 }
