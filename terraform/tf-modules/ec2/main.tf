@@ -25,7 +25,7 @@ resource "aws_instance" "ec2_hack" {
 
 }
 
-resource "eip" "eip_hack" {
+resource "aws_eip" "eip_hack" {
 
   tags = { Name = "B2111933 Hack Website EIP" }
 
@@ -58,7 +58,7 @@ resource "aws_instance" "ec2_pizza" {
 
 }
 
-resource "eip" "eip_pizza" {
+resource "aws_eip" "eip_pizza" {
 
   tags = { Name = "B2111933 Pizza Website EIP" }
 

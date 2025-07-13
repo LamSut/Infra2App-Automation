@@ -9,7 +9,7 @@ output "hack_instance_id" {
 
 output "hack_public_ip" {
   description = "Public IP addresses of Hack website instance"
-  value       = aws_instance.eip_hack.public_ip
+  value       = aws_eip.eip_hack.public_ip
 }
 
 output "hack_private_ip" {
@@ -63,7 +63,7 @@ output "pizza_instance_id" {
 
 output "pizza_public_ip" {
   description = "Public IP addresses of Pizza website instance"
-  value       = aws_instance.eip_pizza.public_ip
+  value       = aws_eip.eip_pizza.public_ip
 }
 
 output "pizza_private_ip" {
