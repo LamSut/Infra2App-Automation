@@ -97,7 +97,7 @@ resource "null_resource" "hack_config" {
   }
 
   depends_on = [
-    aws_instance.hack,
+    aws_instance.ec2_hack,
   ]
 
   provisioner "local-exec" {
@@ -123,7 +123,7 @@ resource "null_resource" "pizza_config" {
   }
 
   depends_on = [
-    aws_instance.pizza,
+    aws_instance.ec2_pizza,
   ]
 
   provisioner "local-exec" {
