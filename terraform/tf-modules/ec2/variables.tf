@@ -93,11 +93,11 @@ variable "instance_free" {
 #########################
 
 variable "setup_linux" {
-  default = "../../ansible/setup/linux.sh" # This script has Git & Docker
+  default = "../ansible/setup/linux.sh" # This script has Git & Docker
 }
 
 variable "setup_windows" {
-  default = "../../ansible/setup/windows.ps1"
+  default = "../ansible/setup/windows.ps1"
 }
 
 #########################
@@ -105,9 +105,9 @@ variable "setup_windows" {
 #########################
 
 variable "pb_linux_path" {
-  default = "../../ansible/playbooks/linux"
+  default = "../ansible/playbooks/linux"
 }
 
 variable "pb_windows_path" {
-  default = "../../ansible/playbooks/windows"
+  default = "../ansible/playbooks/windows"
 }
