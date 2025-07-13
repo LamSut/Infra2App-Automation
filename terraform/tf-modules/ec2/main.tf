@@ -74,14 +74,14 @@ resource "aws_eip" "eip_pizza" {
 
 locals {
 
-  hack_public_ip = aws_instance.hack.public_ip
+  hack_public_ip = aws_eip.eip_hack.public_ip
   hack_user      = "ec2-user"
 
   hack_playbooks = [
     "${var.pb_linux_path}/hack-website/install.yaml",
   ]
 
-  pizza_public_ip = aws_instance.pizza.public_ip
+  pizza_public_ip = aws_eip.eip_pizza.public_ip
   pizza_user      = "ubuntu"
 
   pizza_playbooks = [
