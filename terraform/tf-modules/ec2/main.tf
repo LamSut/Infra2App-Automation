@@ -2,7 +2,7 @@
 ### Infrastructure Provisioning ###
 ###################################
 
-resource "aws_instance" "hack" {
+resource "aws_instance" "ec2_hack" {
 
   tags = { Name = "B2111933 Hack Website" }
 
@@ -25,7 +25,17 @@ resource "aws_instance" "hack" {
 
 }
 
-resource "aws_instance" "pizza" {
+resource "eip" "eip_hack" {
+
+  tags = { Name = "B2111933 Hack Website EIP" }
+
+  instance   = aws_instance.ec2_hack.id
+  depends_on = [aws_instance.ec2_hack]
+
+}
+
+
+resource "aws_instance" "ec2_pizza" {
 
   tags = { Name = "B2111933 Pizza Website" }
 
@@ -45,6 +55,15 @@ resource "aws_instance" "pizza" {
       host        = self.public_ip
     }
   }
+
+}
+
+resource "eip" "eip_pizza" {
+
+  tags = { Name = "B2111933 Pizza Website EIP" }
+
+  instance   = aws_instance.ec2_pizza.id
+  depends_on = [aws_instance.ec2_pizza]
 
 }
 
