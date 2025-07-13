@@ -32,19 +32,49 @@ variable "public_subnet" {}
 ### Free AMIs ###
 #################
 
-variable "ami_free_amazon" {
-  type    = string
-  default = "ami-05ffe3c48a9991133"
+data "aws_ami" "ami_amazon_2023" {
+  most_recent = true
+  owners      = ["137112412989"]
+
+  filter {
+    name   = "name"
+    values = ["al2023-ami-*-x86_64"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
 }
 
-variable "ami_free_ubuntu" {
-  type    = string
-  default = "ami-020cba7c55df1f615"
+data "aws_ami" "ami_ubuntu_2404" {
+  most_recent = true
+  owners      = ["099720109477"]
+
+  filter {
+    name   = "name"
+    values = ["ubuntu/images/hvm-ssd-gp3/ubuntu-noble-24.04-amd64-server-*"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
 }
 
-variable "ami_free_windows" {
-  type    = string
-  default = "ami-02b60b5095d1e5227"
+data "aws_ami" "ami_windows_2025" {
+  most_recent = true
+  owners      = ["801119661308"]
+
+  filter {
+    name   = "name"
+    values = ["Windows_Server-2025-English-Full-Base-*"]
+  }
+
+  filter {
+    name   = "virtualization-type"
+    values = ["hvm"]
+  }
 }
 
 
@@ -52,7 +82,7 @@ variable "ami_free_windows" {
 ### Free Instance Types ###
 ###########################
 
-variable "instance_type_free" {
+variable "instance_free" {
   type    = string
   default = "t3.small"
 }

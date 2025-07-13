@@ -6,8 +6,8 @@ resource "aws_instance" "hack" {
 
   tags = { Name = "B2111933 Hack Website" }
 
-  ami                    = var.ami_free_amazon
-  instance_type          = var.instance_type_free
+  ami                    = data.aws_ami.ami_amazon_2023.id
+  instance_type          = var.instance_free
   subnet_id              = var.public_subnet[0]
   vpc_security_group_ids = [var.security_group["sg_linux"]]
 
@@ -29,8 +29,8 @@ resource "aws_instance" "pizza" {
 
   tags = { Name = "B2111933 Pizza Website" }
 
-  ami                    = var.ami_free_ubuntu
-  instance_type          = var.instance_type_free
+  ami                    = data.aws_ami.ami_ubuntu_2404.id
+  instance_type          = var.instance_free
   subnet_id              = var.public_subnet[0]
   vpc_security_group_ids = [var.security_group["sg_linux"]]
 
