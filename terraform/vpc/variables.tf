@@ -1,3 +1,7 @@
+#############################
+### Network Configuration ###
+#############################
+
 variable "default_cidr" {
   type    = string
   default = "0.0.0.0/0"
@@ -22,14 +26,6 @@ variable "public_subnets" {
     #   cidr_block        = "10.0.2.0/24"
     #   availability_zone = "us-east-1a"
     # },
-    # {
-    #   cidr_block        = "10.0.3.0/24"
-    #   availability_zone = "us-east-1a"
-    # },
-    # {
-    #   cidr_block        = "10.0.4.0/24"
-    #   availability_zone = "us-east-1a"
-    # }
   ]
 }
 
@@ -39,24 +35,22 @@ variable "public_subnets" {
 #     availability_zone = string
 #   }))
 #   default = [
-#     # {
-#     #   cidr_block        = "10.0.101.0/24"
-#     #   availability_zone = "us-east-1a"
-#     # },
-#     # {
-#     #   cidr_block        = "10.0.102.0/24"
-#     #   availability_zone = "us-east-1a"
-#     # },
-#     # {
-#     #   cidr_block        = "10.0.103.0/24"
-#     #   availability_zone = "us-east-1a"
-#     # },
-#     # {
-#     #   cidr_block        = "10.0.104.0/24"
-#     #   availability_zone = "us-east-1a"
-#     # }
+#     {
+#       cidr_block        = "10.0.101.0/24"
+#       availability_zone = "us-east-1a"
+#     },
+#     {
+#       cidr_block        = "10.0.102.0/24"
+#       availability_zone = "us-east-1a"
+#     },
 #   ]
 # }
+
+
+
+#######################
+### Security Groups ###
+#######################
 
 variable "security_groups_config" {
   type = map(object({
@@ -100,7 +94,7 @@ variable "security_groups_config" {
           from_port   = 3000
           to_port     = 3000
           protocol    = "tcp"
-          cidr_blocks = ["0.0.0.0/0"]
+          cidr_blocks = ["115.78.6.138/32"] # Admin VPN IP
         },
         # {
         #   from_port   = 5173

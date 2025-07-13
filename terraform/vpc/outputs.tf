@@ -1,4 +1,7 @@
-// VPC
+#########################
+### VPC Configuration ###
+#########################
+
 output "vpc_id" {
   description = "ID of the VPC"
   value       = aws_vpc.b2111933_vpc.id
@@ -24,7 +27,11 @@ output "vpc_tags" {
   value       = aws_vpc.b2111933_vpc.tags
 }
 
-// Public Subnet
+
+######################
+### Public Subnets ###
+######################
+
 output "public_subnet_ids" {
   description = "IDs for public subnets"
   value       = values(aws_subnet.public_subnets)[*].id
@@ -50,7 +57,11 @@ output "public_subnet_count" {
   value       = length(aws_subnet.public_subnets)
 }
 
-// Internet Gateway
+
+########################
+### Internet Gateway ###
+########################
+
 output "internet_gateway_id" {
   description = "ID of the Internet Gateway"
   value       = aws_internet_gateway.igw.id
@@ -66,7 +77,10 @@ output "gw_vpc_id" {
   description = "The VPC ID associated with the Internet Gateway"
 }
 
-// Public Route Table
+##########################
+### Public Route Table ###
+##########################
+
 output "public_rt_id" {
   description = "ID for public route tables"
   value       = aws_route_table.public_rt.id
@@ -87,7 +101,11 @@ output "public_rt_association_ids" {
   value       = { for key, assoc in aws_route_table_association.public_rt_assoc : key => assoc.id }
 }
 
-# // Private Subnet
+
+# #######################
+# ### Private Subnets ###
+# #######################
+
 # output "private_subnet_ids" {
 #   description = "IDs for private subnets"
 #   value       = values(aws_subnet.private_subnets)[*].id
@@ -113,7 +131,11 @@ output "public_rt_association_ids" {
 #   value       = length(aws_subnet.private_subnets)
 # }
 
-# // NAT
+
+# #########################
+# ### NAT Configuration ###
+# #########################
+
 # output "nat_eip_public_ip" {
 #   description = "Elastic IP address assigned to the NAT Gateway"
 #   value       = aws_eip.nat_eip.public_ip
@@ -139,7 +161,11 @@ output "public_rt_association_ids" {
 #   value       = aws_nat_gateway.nat_gw.tags
 # }
 
-# // Private Route Table
+
+# ###########################
+# ### Private Route Table ###
+# ###########################
+
 # output "private_rt_id" {
 #   description = "ID of the private route table"
 #   value       = aws_route_table.private_rt.id
@@ -160,7 +186,11 @@ output "public_rt_association_ids" {
 #   value       = { for key, assoc in aws_route_table_association.private_rt_assoc : key => assoc.id }
 # }
 
-// Security Group
+
+#######################
+### Security Groups ###
+#######################
+
 output "sg_ids" {
   description = "IDs for security groups"
   value       = { for sg_name, sg in aws_security_group.security_groups : sg_name => sg.id }
