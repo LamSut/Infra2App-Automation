@@ -1,17 +1,3 @@
-###################
-### Access Keys ###
-###################
-
-variable "private_key_name" {
-  type    = string
-  default = "b2111933-pair"
-}
-
-variable "private_key_path" {
-  type    = string
-  default = "../../keys/b2111933-pair.pem"
-}
-
 ##################
 ### Networking ###
 ##################
@@ -85,6 +71,21 @@ data "aws_ami" "ami_windows_2025" {
 variable "instance_free" {
   type    = string
   default = "t3.small"
+}
+
+
+###################
+### Access Keys ###
+###################
+
+variable "private_key_name" {
+  type    = string
+  default = "b2111933-pair"
+}
+
+variable "private_key_path" {
+  type    = string
+  default = "../keys/b2111933-pair.pem"
 }
 
 
