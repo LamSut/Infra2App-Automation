@@ -169,3 +169,52 @@ resource "null_resource" "windows_config" {
   }
 }
 
+
+################################
+### Health Check Validation  ###
+################################
+
+data "http" "amazon_health" {
+  for_each = {
+    for idx, ip in local.amazon_public_ips : "amazon_${idx}" => ip
+  }
+
+  url = "http://${each.value}"
+
+  lifecycle {
+    postcondition {
+      condition     = self.status_code == 200
+      error_message = "Amazon instance ${each.key} (${each.value}) did not return HTTP 200"
+    }
+  }
+}
+
+data "http" "ubuntu_health" {
+  for_each = {
+    for idx, ip in local.ubuntu_public_ips : "ubuntu_${idx}" => ip
+  }
+
+  url = "http://${each.value}"
+
+  lifecycle {
+    postcondition {
+      condition     = self.status_code == 200
+      error_message = "Ubuntu instance ${each.key} (${each.value}) did not return HTTP 200"
+    }
+  }
+}
+
+data "http" "windows_health" {
+  for_each = {
+    for idx, ip in local.windows_public_ips : "windows_${idx}" => ip
+  }
+
+  url = "http://${each.value}"
+
+  lifecycle {
+    postcondition {
+      condition     = self.status_code == 200
+      error_message = "Windows instance ${each.key} (${each.value}) did not return HTTP 200"
+    }
+  }
+}
