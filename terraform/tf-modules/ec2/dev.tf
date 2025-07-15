@@ -198,6 +198,7 @@ resource "null_resource" "windows_health_trigger" {
   }
 }
 
+
 data "http" "amazon_health" {
   for_each = {
     for idx, ip in local.amazon_public_ips : "amazon_${idx}" => ip
@@ -247,4 +248,51 @@ data "http" "windows_health" {
       error_message = "Windows instance ${each.key} (${each.value}) did not return HTTP 200"
     }
   }
+}
+
+
+resource "null_resource" "amazon_health_log" {
+  for_each = data.http.amazon_health
+
+  triggers = {
+    ip     = each.value.url
+    status = tostring(each.value.status_code)
+  }
+
+  provisioner "local-exec" {
+    command = "echo 'Checked Amazon ${each.key}: ${each.value.url} → ${each.value.status_code}'"
+  }
+
+  depends_on = [data.http.amazon_health]
+}
+
+resource "null_resource" "ubuntu_health_log" {
+  for_each = data.http.ubuntu_health
+
+  triggers = {
+    ip     = each.value.url
+    status = tostring(each.value.status_code)
+  }
+
+  provisioner "local-exec" {
+    command = "echo 'Checked Ubuntu ${each.key}: ${each.value.url} → ${each.value.status_code}'"
+  }
+
+  depends_on = [data.http.ubuntu_health]
+}
+
+
+resource "null_resource" "windows_health_log" {
+  for_each = data.http.windows_health
+
+  triggers = {
+    ip     = each.value.url
+    status = tostring(each.value.status_code)
+  }
+
+  provisioner "local-exec" {
+    command = "echo 'Checked Windows ${each.key}: ${each.value.url} → ${each.value.status_code}'"
+  }
+
+  depends_on = [data.http.windows_health]
 }
