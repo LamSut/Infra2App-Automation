@@ -12,6 +12,11 @@ output "hack_public_ip" {
   value       = length(aws_eip.eip_hack) > 0 ? aws_eip.eip_hack[0].public_ip : ""
 }
 
+output "hack_admin_url" {
+  description = "Full URL to the Hack Admin API docs"
+  value       = length(aws_eip.eip_hack) > 0 ? format("http://%s:3000", aws_eip.eip_hack[0].public_ip) : ""
+}
+
 output "hack_private_ip" {
   description = "Private IP address of Hack website instance"
   value       = length(aws_instance.ec2_hack) > 0 ? aws_instance.ec2_hack[0].private_ip : ""
