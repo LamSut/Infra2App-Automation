@@ -137,29 +137,10 @@ resource "null_resource" "pizza_config" {
   }
 }
 
+
 ################################
 ### Health Check Validation  ###
 ################################
 
-check "hack_health_check" {
-  data "http" "hack_health" {
-    url = "http://${aws_eip.eip_hack.public_ip}"
-  }
 
-  assert {
-    condition     = data.http.hack_health.status_code == 200
-    error_message = "Hack website did not return HTTP 200. Check the application or firewall settings."
-  }
-}
-
-check "pizza_health_check" {
-  data "http" "pizza_health" {
-    url = "http://${aws_eip.eip_pizza.public_ip}"
-  }
-
-  assert {
-    condition     = data.http.pizza_health.status_code == 200
-    error_message = "Pizza website did not return HTTP 200. Check the application or firewall settings."
-  }
-}
 

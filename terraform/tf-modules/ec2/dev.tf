@@ -174,10 +174,36 @@ resource "null_resource" "windows_config" {
 ### Health Check Validation  ###
 ################################
 
+resource "null_resource" "amazon_health_trigger" {
+  count      = length(local.amazon_public_ips)
+  depends_on = [null_resource.amazon_config]
+  triggers = {
+    always_run = timestamp()
+  }
+}
+
+resource "null_resource" "ubuntu_health_trigger" {
+  count      = length(local.ubuntu_public_ips)
+  depends_on = [null_resource.ubuntu_config]
+  triggers = {
+    always_run = timestamp()
+  }
+}
+
+resource "null_resource" "windows_health_trigger" {
+  count      = length(local.windows_public_ips)
+  depends_on = [null_resource.windows_config]
+  triggers = {
+    always_run = timestamp()
+  }
+}
+
 data "http" "amazon_health" {
   for_each = {
     for idx, ip in local.amazon_public_ips : "amazon_${idx}" => ip
   }
+
+  depends_on = [null_resource.amazon_health_trigger]
 
   url = "http://${each.value}"
 
@@ -194,6 +220,8 @@ data "http" "ubuntu_health" {
     for idx, ip in local.ubuntu_public_ips : "ubuntu_${idx}" => ip
   }
 
+  depends_on = [null_resource.ubuntu_health_trigger]
+
   url = "http://${each.value}"
 
   lifecycle {
@@ -208,6 +236,8 @@ data "http" "windows_health" {
   for_each = {
     for idx, ip in local.windows_public_ips : "windows_${idx}" => ip
   }
+
+  depends_on = [null_resource.windows_health_trigger]
 
   url = "http://${each.value}"
 
