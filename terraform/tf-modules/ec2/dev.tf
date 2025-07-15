@@ -171,10 +171,10 @@ resource "null_resource" "windows_config" {
 
 
 ################################
-### Health Check Validation  ###
+### access_check Check Validation  ###
 ################################
 
-resource "null_resource" "amazon_health_trigger" {
+resource "null_resource" "amazon_access_check_trigger" {
   count      = length(local.amazon_public_ips)
   depends_on = [null_resource.amazon_config]
   triggers = {
@@ -182,7 +182,7 @@ resource "null_resource" "amazon_health_trigger" {
   }
 }
 
-resource "null_resource" "ubuntu_health_trigger" {
+resource "null_resource" "ubuntu_access_check_trigger" {
   count      = length(local.ubuntu_public_ips)
   depends_on = [null_resource.ubuntu_config]
   triggers = {
@@ -190,7 +190,7 @@ resource "null_resource" "ubuntu_health_trigger" {
   }
 }
 
-resource "null_resource" "windows_health_trigger" {
+resource "null_resource" "windows_access_check_trigger" {
   count      = length(local.windows_public_ips)
   depends_on = [null_resource.windows_config]
   triggers = {
@@ -199,12 +199,12 @@ resource "null_resource" "windows_health_trigger" {
 }
 
 
-data "http" "amazon_health" {
+data "http" "amazon_access_check" {
   for_each = {
-    for idx, ip in local.amazon_public_ips : "amazon_${idx}" => ip
+    for idx, ip in local.amazon_public_ips : "${idx + 1}" => ip
   }
 
-  depends_on = [null_resource.amazon_health_trigger]
+  depends_on = [null_resource.amazon_access_check_trigger]
 
   url = "http://${each.value}"
 
@@ -216,12 +216,12 @@ data "http" "amazon_health" {
   }
 }
 
-data "http" "ubuntu_health" {
+data "http" "ubuntu_access_check" {
   for_each = {
-    for idx, ip in local.ubuntu_public_ips : "ubuntu_${idx}" => ip
+    for idx, ip in local.ubuntu_public_ips : "${idx + 1}" => ip
   }
 
-  depends_on = [null_resource.ubuntu_health_trigger]
+  depends_on = [null_resource.ubuntu_access_check_trigger]
 
   url = "http://${each.value}"
 
@@ -233,12 +233,12 @@ data "http" "ubuntu_health" {
   }
 }
 
-data "http" "windows_health" {
+data "http" "windows_access_check" {
   for_each = {
-    for idx, ip in local.windows_public_ips : "windows_${idx}" => ip
+    for idx, ip in local.windows_public_ips : "${idx + 1}" => ip
   }
 
-  depends_on = [null_resource.windows_health_trigger]
+  depends_on = [null_resource.windows_access_check_trigger]
 
   url = "http://${each.value}"
 
@@ -251,8 +251,8 @@ data "http" "windows_health" {
 }
 
 
-resource "null_resource" "amazon_health_log" {
-  for_each = data.http.amazon_health
+resource "null_resource" "amazon_access_check_log" {
+  for_each = data.http.amazon_access_check
 
   triggers = {
     ip     = each.value.url
@@ -260,14 +260,14 @@ resource "null_resource" "amazon_health_log" {
   }
 
   provisioner "local-exec" {
-    command = "echo 'Checked Amazon ${each.key}: ${each.value.url} → ${each.value.status_code}'"
+    command = "echo 'Amazon ${each.key} is accessible: ${each.value.url} → ${each.value.status_code}'"
   }
 
-  depends_on = [data.http.amazon_health]
+  depends_on = [data.http.amazon_access_check]
 }
 
-resource "null_resource" "ubuntu_health_log" {
-  for_each = data.http.ubuntu_health
+resource "null_resource" "ubuntu_access_check_log" {
+  for_each = data.http.ubuntu_access_check
 
   triggers = {
     ip     = each.value.url
@@ -275,15 +275,14 @@ resource "null_resource" "ubuntu_health_log" {
   }
 
   provisioner "local-exec" {
-    command = "echo 'Checked Ubuntu ${each.key}: ${each.value.url} → ${each.value.status_code}'"
+    command = "echo 'Ubuntu ${each.key} is accessible: ${each.value.url} → ${each.value.status_code}'"
   }
 
-  depends_on = [data.http.ubuntu_health]
+  depends_on = [data.http.ubuntu_access_check]
 }
 
-
-resource "null_resource" "windows_health_log" {
-  for_each = data.http.windows_health
+resource "null_resource" "windows_access_check_log" {
+  for_each = data.http.windows_access_check
 
   triggers = {
     ip     = each.value.url
@@ -291,8 +290,8 @@ resource "null_resource" "windows_health_log" {
   }
 
   provisioner "local-exec" {
-    command = "echo 'Checked Windows ${each.key}: ${each.value.url} → ${each.value.status_code}'"
+    command = "echo 'Windows ${each.key} is accessible: ${each.value.url} → ${each.value.status_code}'"
   }
 
-  depends_on = [data.http.windows_health]
+  depends_on = [data.http.windows_access_check]
 }
