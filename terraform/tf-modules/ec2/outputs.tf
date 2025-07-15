@@ -4,52 +4,52 @@
 
 output "hack_instance_id" {
   description = "Hack website instance ID"
-  value       = aws_instance.ec2_hack.id
+  value       = length(aws_instance.ec2_hack) > 0 ? aws_instance.ec2_hack[0].id : ""
 }
 
 output "hack_public_ip" {
-  description = "Public IP addresses of Hack website instance"
-  value       = aws_eip.eip_hack.public_ip
+  description = "Public IP address of Hack website instance"
+  value       = length(aws_eip.eip_hack) > 0 ? aws_eip.eip_hack[0].public_ip : ""
 }
 
 output "hack_private_ip" {
-  description = "Private IP addresses of Hack website instance"
-  value       = aws_instance.ec2_hack.private_ip
+  description = "Private IP address of Hack website instance"
+  value       = length(aws_instance.ec2_hack) > 0 ? aws_instance.ec2_hack[0].private_ip : ""
 }
 
 output "hack_public_dns" {
-  description = "Public DNS names of Hack website instance"
-  value       = aws_instance.ec2_hack.public_dns
+  description = "Public DNS of Hack website instance"
+  value       = length(aws_instance.ec2_hack) > 0 ? aws_instance.ec2_hack[0].public_dns : ""
 }
 
 output "hack_private_dns" {
-  description = "Private DNS names of Hack website instance"
-  value       = aws_instance.ec2_hack.private_dns
+  description = "Private DNS of Hack website instance"
+  value       = length(aws_instance.ec2_hack) > 0 ? aws_instance.ec2_hack[0].private_dns : ""
 }
 
 output "hack_instance_ami" {
   description = "AMI used by Hack website instance"
-  value       = aws_instance.ec2_hack.ami
+  value       = length(aws_instance.ec2_hack) > 0 ? aws_instance.ec2_hack[0].ami : ""
 }
 
 output "hack_instance_type" {
   description = "Instance type for Hack website instance"
-  value       = aws_instance.ec2_hack.instance_type
+  value       = length(aws_instance.ec2_hack) > 0 ? aws_instance.ec2_hack[0].instance_type : ""
 }
 
 output "hack_key_name" {
   description = "Key pair name used by Hack website instance"
-  value       = aws_instance.ec2_hack.key_name
+  value       = length(aws_instance.ec2_hack) > 0 ? aws_instance.ec2_hack[0].key_name : ""
 }
 
 output "hack_subnet_id" {
   description = "Subnet ID where the Hack website instance is deployed"
-  value       = aws_instance.ec2_hack.subnet_id
+  value       = length(aws_instance.ec2_hack) > 0 ? aws_instance.ec2_hack[0].subnet_id : ""
 }
 
 output "hack_security_group_ids" {
   description = "Security Group IDs attached to Hack website instance"
-  value       = aws_instance.ec2_hack.vpc_security_group_ids
+  value       = length(aws_instance.ec2_hack) > 0 ? aws_instance.ec2_hack[0].vpc_security_group_ids : []
 }
 
 ##############################
@@ -58,57 +58,57 @@ output "hack_security_group_ids" {
 
 output "pizza_instance_id" {
   description = "Pizza website instance ID"
-  value       = aws_instance.ec2_pizza.id
+  value       = length(aws_instance.ec2_pizza) > 0 ? aws_instance.ec2_pizza[0].id : ""
 }
 
 output "pizza_public_ip" {
-  description = "Public IP addresses of Pizza website instance"
-  value       = aws_eip.eip_pizza.public_ip
+  description = "Public IP address of Pizza website instance"
+  value       = length(aws_eip.eip_pizza) > 0 ? aws_eip.eip_pizza[0].public_ip : ""
 }
 
 output "pizza_admin_url" {
   description = "Full URL to the Pizza Admin API docs"
-  value       = format("http://%s:3000/api-docs/", aws_eip.eip_pizza.public_ip)
+  value       = length(aws_eip.eip_pizza) > 0 ? format("http://%s:3000/api-docs/", aws_eip.eip_pizza[0].public_ip) : ""
 }
 
 output "pizza_private_ip" {
-  description = "Private IP addresses of Pizza website instance"
-  value       = aws_instance.ec2_pizza.private_ip
+  description = "Private IP address of Pizza website instance"
+  value       = length(aws_instance.ec2_pizza) > 0 ? aws_instance.ec2_pizza[0].private_ip : ""
 }
 
 output "pizza_public_dns" {
-  description = "Public DNS names of Pizza website instance"
-  value       = aws_instance.ec2_pizza.public_dns
+  description = "Public DNS of Pizza website instance"
+  value       = length(aws_instance.ec2_pizza) > 0 ? aws_instance.ec2_pizza[0].public_dns : ""
 }
 
 output "pizza_private_dns" {
-  description = "Private DNS names of Pizza website instance"
-  value       = aws_instance.ec2_pizza.private_dns
+  description = "Private DNS of Pizza website instance"
+  value       = length(aws_instance.ec2_pizza) > 0 ? aws_instance.ec2_pizza[0].private_dns : ""
 }
 
 output "pizza_instance_ami" {
   description = "AMI used by Pizza website instance"
-  value       = aws_instance.ec2_pizza.ami
+  value       = length(aws_instance.ec2_pizza) > 0 ? aws_instance.ec2_pizza[0].ami : ""
 }
 
 output "pizza_instance_type" {
   description = "Instance type for Pizza website instance"
-  value       = aws_instance.ec2_pizza.instance_type
+  value       = length(aws_instance.ec2_pizza) > 0 ? aws_instance.ec2_pizza[0].instance_type : ""
 }
 
 output "pizza_key_name" {
   description = "Key pair name used by Pizza website instance"
-  value       = aws_instance.ec2_pizza.key_name
+  value       = length(aws_instance.ec2_pizza) > 0 ? aws_instance.ec2_pizza[0].key_name : ""
 }
 
 output "pizza_subnet_id" {
   description = "Subnet ID where the Pizza website instance is deployed"
-  value       = aws_instance.ec2_pizza.subnet_id
+  value       = length(aws_instance.ec2_pizza) > 0 ? aws_instance.ec2_pizza[0].subnet_id : ""
 }
 
 output "pizza_security_group_ids" {
   description = "Security Group IDs attached to Pizza website instance"
-  value       = aws_instance.ec2_pizza.vpc_security_group_ids
+  value       = length(aws_instance.ec2_pizza) > 0 ? aws_instance.ec2_pizza[0].vpc_security_group_ids : []
 }
 
 

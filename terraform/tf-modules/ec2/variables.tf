@@ -1,6 +1,22 @@
-##################
-### Networking ###
-##################
+#####################
+### EC2 Instances ###
+#####################
+
+variable "deploy_hack" {
+  description = "Provision EC2 for Hack Website or not"
+  type        = bool
+  default     = true
+}
+
+variable "deploy_pizza" {
+  description = "Provision EC2 for Pizza Website or not"
+  type        = bool
+  default     = true
+}
+
+######################
+### VPC Networking ###
+######################
 
 variable "security_group" {
   type = map(string)
