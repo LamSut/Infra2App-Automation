@@ -37,7 +37,7 @@ resource "aws_instance" "ec2_pizza" {
   ami           = data.aws_ami.ami_ubuntu_2404.id
   instance_type = var.instance_free
   root_block_device {
-    volume_size = 20
+    volume_size = 25
     volume_type = "gp3"
   }
 

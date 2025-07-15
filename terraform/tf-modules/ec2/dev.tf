@@ -3,13 +3,13 @@
 ###################################
 
 resource "aws_instance" "amazon" {
-  count = 0
+  count = 1
   tags  = { Name = "B2111933 Amazon Linux ${count.index + 1}" }
 
   ami           = data.aws_ami.ami_amazon_2023.id
   instance_type = var.instance_free
   root_block_device {
-    volume_size = 15
+    volume_size = 20
     volume_type = "gp3"
   }
 
@@ -30,13 +30,13 @@ resource "aws_instance" "amazon" {
 }
 
 resource "aws_instance" "ubuntu" {
-  count = 0
+  count = 1
   tags  = { Name = "B2111933 Ubuntu ${count.index + 1}" }
 
   ami           = data.aws_ami.ami_ubuntu_2404.id
   instance_type = var.instance_free
   root_block_device {
-    volume_size = 15
+    volume_size = 20
     volume_type = "gp3"
   }
 
@@ -57,13 +57,13 @@ resource "aws_instance" "ubuntu" {
 }
 
 resource "aws_instance" "windows" {
-  count = 0
+  count = 1
   tags  = { Name = "B2111933 Windows ${count.index + 1}" }
 
   ami           = data.aws_ami.ami_windows_2025.id
   instance_type = var.instance_free
   root_block_device {
-    volume_size = 30
+    volume_size = 35
     volume_type = "gp3"
   }
 
