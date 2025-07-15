@@ -137,5 +137,81 @@ resource "null_resource" "pizza_config" {
 }
 
 ################################
-### Health Check Validation  ###
+### Access Check Validation  ###
 ################################
+
+resource "null_resource" "hack_access_check_trigger" {
+  count      = var.deploy_hack ? 1 : 0
+  depends_on = [null_resource.hack_config]
+  triggers = {
+    always_run = timestamp()
+  }
+}
+
+resource "null_resource" "pizza_access_check_trigger" {
+  count      = var.deploy_pizza ? 1 : 0
+  depends_on = [null_resource.pizza_config]
+  triggers = {
+    always_run = timestamp()
+  }
+}
+
+
+data "http" "hack_access_check" {
+  count      = var.deploy_hack ? 1 : 0
+  depends_on = [null_resource.hack_access_check_trigger]
+
+  url = "http://${aws_eip.eip_hack[0].public_ip}"
+
+  lifecycle {
+    postcondition {
+      condition     = self.status_code == 200
+      error_message = "Hack website instance (${aws_eip.eip_hack[0].public_ip}) did not return HTTP 200"
+    }
+  }
+}
+
+data "http" "pizza_access_check" {
+  count      = var.deploy_pizza ? 1 : 0
+  depends_on = [null_resource.pizza_access_check_trigger]
+
+  url = "http://${aws_eip.eip_pizza[0].public_ip}"
+
+  lifecycle {
+    postcondition {
+      condition     = self.status_code == 200
+      error_message = "Pizza website instance (${aws_eip.eip_pizza[0].public_ip}) did not return HTTP 200"
+    }
+  }
+}
+
+
+resource "null_resource" "hack_access_check_log" {
+  count = var.deploy_hack ? 1 : 0
+
+  triggers = {
+    ip     = data.http.hack_access_check[0].url
+    status = tostring(data.http.hack_access_check[0].status_code)
+  }
+
+  provisioner "local-exec" {
+    command = "echo 'Hack Website is accessible: ${data.http.hack_access_check[0].url} → ${data.http.hack_access_check[0].status_code}'"
+  }
+
+  depends_on = [data.http.hack_access_check]
+}
+
+resource "null_resource" "pizza_access_check_log" {
+  count = var.deploy_pizza ? 1 : 0
+
+  triggers = {
+    ip     = data.http.pizza_access_check[0].url
+    status = tostring(data.http.pizza_access_check[0].status_code)
+  }
+
+  provisioner "local-exec" {
+    command = "echo 'Pizza Website is accessible: ${data.http.pizza_access_check[0].url} → ${data.http.pizza_access_check[0].status_code}'"
+  }
+
+  depends_on = [data.http.pizza_access_check]
+}
