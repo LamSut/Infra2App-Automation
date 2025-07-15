@@ -151,7 +151,7 @@ resource "null_resource" "hack_access_check" {
   provisioner "local-exec" {
     command = <<EOT
       echo "Checking Hack website access at http://${aws_eip.eip_hack[0].public_ip}"
-      for i in {1..10}; do
+      for i in $(seq 1 10); do
         if curl -sSf http://${aws_eip.eip_hack[0].public_ip} > /dev/null; then
           echo "Hack website is accessible"
           exit 0
@@ -176,7 +176,7 @@ resource "null_resource" "pizza_access_check" {
   provisioner "local-exec" {
     command = <<EOT
       echo "Checking Pizza website access at http://${aws_eip.eip_pizza[0].public_ip}"
-      for i in {1..10}; do
+      for i in $(seq 1 10); do
         if curl -sSf http://${aws_eip.eip_pizza[0].public_ip} > /dev/null; then
           echo "Pizza website is accessible"
           exit 0
