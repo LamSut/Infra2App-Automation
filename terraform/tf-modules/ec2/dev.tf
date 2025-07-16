@@ -3,7 +3,7 @@
 ###################################
 
 resource "aws_instance" "amazon" {
-  count = 1
+  count = 2
   tags  = { Name = "B2111933 Amazon Linux ${count.index + 1}" }
 
   ami           = data.aws_ami.ami_amazon_2023.id
