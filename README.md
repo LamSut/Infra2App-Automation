@@ -7,4 +7,4 @@ The project adopts an automation-based approach to provision cloud infrastructur
 * Configuration Management: After provisioning, Ansible is used to deploy applications remotely.
 * CI/CD: GitHub Actions manages the CI/CD pipeline for automated build, test and deployment workflows.
 
-<img width="952" height="952" alt="Detail" src="https://github.com/user-attachments/assets/e9d966f4-59db-4069-849c-cf4502785194" />
+<img width="953" height="953" alt="Detail" src="https://github.com/user-attachments/assets/415884b7-7157-4be6-9b6b-90f73f9968d3" />
