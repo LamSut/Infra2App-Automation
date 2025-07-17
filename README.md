@@ -1,6 +1,6 @@
 # Infra2App Automation
  
-This implementation project automates AWS infrastructure provisioning and application deployment using common DevOps tools.  
+This implementation automates infrastructure provisioning and application deployment using common DevOps tools.  
 The process ensures a consistent and maintainable system through the following stages:  
 * Containerization: Packaging applications as [Docker containers](https://github.com/LamSut/ContainYourself) simplifies deployment across environments.
 * Blue-Green Deployment: Updates are released with minimal downtime using parallel environments.
