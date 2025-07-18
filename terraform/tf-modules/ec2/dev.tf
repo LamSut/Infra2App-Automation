@@ -30,7 +30,7 @@ resource "aws_instance" "amazon" {
 }
 
 resource "aws_instance" "ubuntu" {
-  count = 2
+  count = 1
   tags  = { Name = "B2111933 Ubuntu ${count.index + 1}" }
 
   ami           = data.aws_ami.ami_ubuntu_2404.id
