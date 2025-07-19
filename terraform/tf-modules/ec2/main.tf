@@ -152,7 +152,7 @@ resource "null_resource" "hack_access_check" {
     command = <<EOT
       echo "Checking Hack website access at http://${aws_eip.eip_hack[0].public_ip}"
       for i in $(seq 1 10); do
-        if curl -sSf http://${aws_eip.eip_hack[0].public_ip} > /dev/null; then
+        if curl -sSf https://${aws_eip.eip_hack[0].public_ip} > /dev/null; then
           echo "Hack website is accessible"
           exit 0
         fi
