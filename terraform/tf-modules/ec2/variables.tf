@@ -5,7 +5,7 @@
 variable "deploy_hack" {
   description = "Provision EC2 for Hack Website or not"
   type        = bool
-  default     = false
+  default     = true
 }
 
 variable "deploy_pizza" {
