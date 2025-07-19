@@ -3,6 +3,7 @@
 This implementation automates infrastructure provisioning and application deployment using common DevOps tools.  
 The process ensures a consistent and maintainable system through the following stages:  
 * Containerization: Packaging applications as [Docker containers](https://github.com/LamSut/ContainYourself) simplifies deployment across environments.
+* Security Hardening: SSL is enforced via HTTPS while security headers mitigate common web threats.
 * Blue-Green Deployment: Updates are released with minimal downtime using parallel environments.
 * Infrastructure Provisioning: Terraform is used to provision AWS infrastructure components.
 * Configuration Management: After provisioning, Ansible is used to deploy applications remotely.
