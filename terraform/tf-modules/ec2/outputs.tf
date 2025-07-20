@@ -62,6 +62,17 @@ output "hack_security_group_ids" {
   value       = length(aws_instance.ec2_hack) > 0 ? aws_instance.ec2_hack[0].vpc_security_group_ids : []
 }
 
+output "hack_volume_size" {
+  description = "Root volume size (GiB) of Hack instance"
+  value       = length(aws_instance.ec2_hack) > 0 ? aws_instance.ec2_hack[0].root_block_device[0].volume_size : 0
+}
+
+output "hack_volume_type" {
+  description = "Root volume type of Hack instance"
+  value       = length(aws_instance.ec2_hack) > 0 ? aws_instance.ec2_hack[0].root_block_device[0].volume_type : ""
+}
+
+
 ##############################
 ### Pizza Website Instance ###
 ##############################
@@ -126,6 +137,16 @@ output "pizza_security_group_ids" {
   value       = length(aws_instance.ec2_pizza) > 0 ? aws_instance.ec2_pizza[0].vpc_security_group_ids : []
 }
 
+output "pizza_volume_size" {
+  description = "Root volume size (GiB) of Pizza instance"
+  value       = length(aws_instance.ec2_pizza) > 0 ? aws_instance.ec2_pizza[0].root_block_device[0].volume_size : 0
+}
+
+output "pizza_volume_type" {
+  description = "Root volume type of Pizza instance"
+  value       = length(aws_instance.ec2_pizza) > 0 ? aws_instance.ec2_pizza[0].root_block_device[0].volume_type : ""
+}
+
 
 ##############################
 ### Amazon Linux Instances ###
@@ -184,6 +205,16 @@ output "amazon_subnet_id" {
 output "amazon_security_group_ids" {
   description = "Security Group IDs attached to Amazon Linux instance"
   value       = aws_instance.amazon[*].vpc_security_group_ids
+}
+
+output "amazon_volume_size" {
+  description = "Root volume size (GiB) of Amazon instance"
+  value       = length(aws_instance.amazon) > 0 ? aws_instance.amazon[0].root_block_device[0].volume_size : 0
+}
+
+output "amazon_volume_type" {
+  description = "Root volume type of Amazon instance"
+  value       = length(aws_instance.amazon) > 0 ? aws_instance.amazon[0].root_block_device[0].volume_type : ""
 }
 
 
@@ -246,6 +277,16 @@ output "ubuntu_security_group_ids" {
   value       = aws_instance.ubuntu[*].vpc_security_group_ids
 }
 
+output "ubuntu_volume_size" {
+  description = "Root volume size (GiB) of Ubuntu instance"
+  value       = length(aws_instance.ubuntu) > 0 ? aws_instance.ubuntu[0].root_block_device[0].volume_size : 0
+}
+
+output "ubuntu_volume_type" {
+  description = "Root volume type of Ubuntu instance"
+  value       = length(aws_instance.ubuntu) > 0 ? aws_instance.ubuntu[0].root_block_device[0].volume_type : ""
+}
+
 
 ########################
 ### Windows Instance ###
@@ -260,39 +301,58 @@ output "windows_instance_ids" {
   description = "Windows instance IDs"
   value       = aws_instance.windows[*].id
 }
+
 output "windows_public_ips" {
   description = "Public IP addresses of Windows instances"
   value       = aws_instance.windows[*].public_ip
 }
+
 output "windows_private_ips" {
   description = "Private IP addresses of Windows instances"
   value       = aws_instance.windows[*].private_ip
 }
+
 output "windows_public_dns" {
   description = "Public DNS names of Windows instances"
   value       = aws_instance.windows[*].public_dns
 }
+
 output "windows_private_dns" {
   description = "Private DNS names of Windows instances"
   value       = aws_instance.windows[*].private_dns
 }
+
 output "windows_instance_ami" {
   description = "AMI used by Windows instance"
   value       = aws_instance.windows[*].ami
 }
+
 output "windows_instance_type" {
   description = "Instance type for Windows instance"
   value       = aws_instance.windows[*].instance_type
 }
+
 output "windows_key_name" {
   description = "Key pair name used by Windows instance"
   value       = aws_instance.windows[*].key_name
 }
+
 output "windows_subnet_id" {
   description = "Subnet ID where the Windows instance is deployed"
   value       = aws_instance.windows[*].subnet_id
 }
+
 output "windows_security_group_ids" {
   description = "Security Group IDs attached to Windows instance"
   value       = aws_instance.windows[*].vpc_security_group_ids
+}
+
+output "windows_volume_size" {
+  description = "Root volume size (GiB) of Windows instance"
+  value       = length(aws_instance.windows) > 0 ? aws_instance.windows[0].root_block_device[0].volume_size : 0
+}
+
+output "windows_volume_type" {
+  description = "Root volume type of Windows instance"
+  value       = length(aws_instance.windows) > 0 ? aws_instance.windows[0].root_block_device[0].volume_type : ""
 }
