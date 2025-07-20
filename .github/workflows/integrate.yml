@@ -1,4 +1,4 @@
-name: Integrate # Build - Test - Plan
+name: Integrate Automatically
 
 on:
   push:
@@ -77,6 +77,14 @@ jobs:
         run: terraform init
         working-directory: terraform
 
-      - name: Terraform Test
+      - name: Terraform VPC Unit Test
+        run: terraform test --test-directory=tf-modules/vpc
+        working-directory: terraform
+
+      - name: Terraform EC2 Unit Test
+        run: terraform test --test-directory=tf-modules/ec2
+        working-directory: terraform
+
+      - name: Terraform Integration Test
         run: terraform test
         working-directory: terraform

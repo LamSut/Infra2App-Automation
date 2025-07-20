@@ -1,4 +1,4 @@
-name: Manual Apply # To prevent using a stale plan file, please run the Integrate workflow again
+name: Provision Infrastructure Manually
 
 on:
   workflow_dispatch:

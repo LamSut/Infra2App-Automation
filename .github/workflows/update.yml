@@ -1,0 +1,63 @@
+name: Update Application Manually 
+
+on:
+  workflow_dispatch:
+
+env:
+  AWS_ACCESS_KEY_ID: ${{ secrets.AWS_ACCESS_KEY }}
+  AWS_SECRET_ACCESS_KEY: ${{ secrets.AWS_SECRET_KEY }}
+  AWS_DEFAULT_REGION: "us-east-1"
+
+jobs:
+  plan:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.6
+
+      - name: Terraform Init
+        run: terraform init
+        working-directory: terraform
+
+      - name: Terraform Plan
+        run: terraform plan -out=planfile
+        working-directory: terraform
+
+      - name: Upload Planfile as Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: terraform-planfile
+          path: terraform/planfile
+
+      - name: Install Python and Ansible dependencies
+        run: |
+          sudo apt-get update
+          sudo apt-get install -y python3-pip
+          python3 -m pip install --upgrade pip
+          pip3 install ansible pywinrm requests
+
+      - name: Setup Private Key for Remote Connections
+        run: |
+          mkdir -p keys
+          echo "${{ secrets.AWS_PRIVATE_KEY }}" > keys/b2111933-pair.pem
+          chmod 600 keys/b2111933-pair.pem
+
+      - name: Download Planfile Artifact
+        uses: dawidd6/action-download-artifact@v7
+        with:
+          workflow: integrate.yml
+          name: terraform-planfile
+          path: terraform
+
+      - name: Terraform Init
+        run: terraform init
+        working-directory: terraform
+
+      - name: Terraform Apply
+        run: terraform apply -input=false planfile
+        working-directory: terraform
