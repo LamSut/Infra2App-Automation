@@ -1,72 +1,114 @@
-# # Unit tests for VPC and EC2 modules
+#############################
+### Hack Website Instance ###
+#############################
 
-# # VPC tests
-# run "vpc_tests" {
-#   command = plan
+run "hack_tests" {
+  command = plan
 
-#   # Ensure DNS hostnames and support are enabled
-#   assert {
-#     condition     = module.vpc.vpc_dns_hostnames_enabled == true
-#     error_message = "Must enable DNS hostname resolution!"
-#   }
+  assert {
+    condition     = module.ec2.hack_instance_count == 0 || module.ec2.hack_key_name != ""
+    error_message = "Hack website must have a key pair if instance exists"
+  }
 
-#   assert {
-#     condition     = module.vpc.vpc_dns_support_enabled == true
-#     error_message = "Must enable DNS resolution!"
-#   }
+  assert {
+    condition     = module.ec2.hack_instance_count == 0 || module.ec2.hack_instance_type != ""
+    error_message = "Hack website must have an instance type if instance exists"
+  }
 
-#   # Validate VPC CIDR format (slash must exist)
-#   assert {
-#     condition     = length(split("/", module.vpc.vpc_cidr)) > 1
-#     error_message = "VPC CIDR must be a valid CIDR block!"
-#   }
+  assert {
+    condition     = module.ec2.hack_instance_count == 0 || module.ec2.hack_instance_ami != ""
+    error_message = "Hack website must use a valid AMI if instance exists"
+  }
+}
 
-#   # Public subnets
-#   assert {
-#     condition     = module.vpc.public_subnet_count > 0
-#     error_message = "There must be at least one public subnet!"
-#   }
+##############################
+### Pizza Website Instance ###
+##############################
 
-#   assert {
-#     condition     = length(module.vpc.public_subnet_ids) == module.vpc.public_subnet_count
-#     error_message = "public_subnet_ids length must match public_subnet_count!"
-#   }
+run "pizza_tests" {
+  command = plan
 
-#   # Private subnets
-#   # assert {
-#   #   condition     = module.vpc.private_subnet_count > 0
-#   #   error_message = "There must be at least one private subnet!"
-#   # }
+  assert {
+    condition     = module.ec2.pizza_instance_count == 0 || module.ec2.pizza_key_name != ""
+    error_message = "Pizza website must have a key pair if instance exists"
+  }
 
-#   # Security groups and rules
-#   assert {
-#     condition     = length(module.vpc.sg_ids) > 0
-#     error_message = "Security groups must be created!"
-#   }
+  assert {
+    condition     = module.ec2.pizza_instance_count == 0 || module.ec2.pizza_instance_type != ""
+    error_message = "Pizza website must have an instance type if instance exists"
+  }
 
-#   assert {
-#     condition     = length(module.vpc.sg_icmp_rule_ids) > 0
-#     error_message = "ICMP rule must be enabled in security groups!"
-#   }
-# }
+  assert {
+    condition     = module.ec2.pizza_instance_count == 0 || module.ec2.pizza_instance_ami != ""
+    error_message = "Pizza website must use a valid AMI if instance exists"
+  }
+}
 
+########################
+### Amazon Instances ###
+########################
 
-# # EC2 tests
-# run "ec2_tests" {
-#   command = plan
+run "amazon_tests" {
+  command = plan
 
-#   assert {
-#     condition     = module.ec2.amazon_key_name != ""
-#     error_message = "Amazon Linux instance must have a key pair name!"
-#   }
+  assert {
+    condition     = module.ec2.amazon_instance_count == 0 || length(module.ec2.amazon_key_name) == module.ec2.amazon_instance_count
+    error_message = "Each Amazon Linux instance must have a key pair"
+  }
 
-#   assert {
-#     condition     = module.ec2.ubuntu_key_name != ""
-#     error_message = "Ubuntu instance must have a key pair name!"
-#   }
+  assert {
+    condition     = module.ec2.amazon_instance_count == 0 || length(module.ec2.amazon_instance_type) == module.ec2.amazon_instance_count
+    error_message = "Each Amazon Linux instance must have a type"
+  }
 
-#   assert {
-#     condition     = module.ec2.windows_key_name != ""
-#     error_message = "Windows instance must have a key pair name!"
-#   }
-# }
+  assert {
+    condition     = module.ec2.amazon_instance_count == 0 || length(module.ec2.amazon_instance_ami) == module.ec2.amazon_instance_count
+    error_message = "Each Amazon Linux instance must have an AMI"
+  }
+}
+
+########################
+### Ubuntu Instances ###
+########################
+
+run "ubuntu_tests" {
+  command = plan
+
+  assert {
+    condition     = module.ec2.ubuntu_instance_count == 0 || length(module.ec2.ubuntu_key_name) == module.ec2.ubuntu_instance_count
+    error_message = "Each Ubuntu instance must have a key pair"
+  }
+
+  assert {
+    condition     = module.ec2.ubuntu_instance_count == 0 || length(module.ec2.ubuntu_instance_type) == module.ec2.ubuntu_instance_count
+    error_message = "Each Ubuntu instance must have a type"
+  }
+
+  assert {
+    condition     = module.ec2.ubuntu_instance_count == 0 || length(module.ec2.ubuntu_instance_ami) == module.ec2.ubuntu_instance_count
+    error_message = "Each Ubuntu instance must have an AMI"
+  }
+}
+
+########################
+### Windows Instance ###
+########################
+
+run "windows_tests" {
+  command = plan
+
+  assert {
+    condition     = module.ec2.windows_instance_count == 0 || length(module.ec2.windows_key_name) == module.ec2.windows_instance_count
+    error_message = "Each Windows instance must have a key pair"
+  }
+
+  assert {
+    condition     = module.ec2.windows_instance_count == 0 || length(module.ec2.windows_instance_type) == module.ec2.windows_instance_count
+    error_message = "Each Windows instance must have a type"
+  }
+
+  assert {
+    condition     = module.ec2.windows_instance_count == 0 || length(module.ec2.windows_instance_ami) == module.ec2.windows_instance_count
+    error_message = "Each Windows instance must have an AMI"
+  }
+}

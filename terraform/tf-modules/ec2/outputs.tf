@@ -2,6 +2,11 @@
 ### Hack Website Instance ###
 #############################
 
+output "hack_instance_count" {
+  description = "Number of Hack website instances"
+  value       = length(aws_instance.ec2_hack)
+}
+
 output "hack_instance_id" {
   description = "Hack website instance ID"
   value       = length(aws_instance.ec2_hack) > 0 ? aws_instance.ec2_hack[0].id : ""
@@ -60,6 +65,11 @@ output "hack_security_group_ids" {
 ##############################
 ### Pizza Website Instance ###
 ##############################
+
+output "pizza_instance_count" {
+  description = "Number of Pizza website instances"
+  value       = length(aws_instance.ec2_pizza)
+}
 
 output "pizza_instance_id" {
   description = "Pizza website instance ID"
@@ -121,6 +131,11 @@ output "pizza_security_group_ids" {
 ### Amazon Linux Instances ###
 ##############################
 
+output "amazon_instance_count" {
+  description = "Number of Amazon Linux instances"
+  value       = length(aws_instance.amazon)
+}
+
 output "amazon_instance_ids" {
   description = "Amazon Linux instance IDs"
   value       = aws_instance.amazon[*].id
@@ -176,6 +191,11 @@ output "amazon_security_group_ids" {
 ### Ubuntu Instances ###
 ########################
 
+output "ubuntu_instance_count" {
+  description = "Number of Ubuntu instances"
+  value       = length(aws_instance.ubuntu)
+}
+
 output "ubuntu_instance_ids" {
   description = "Ubuntu instance IDs"
   value       = aws_instance.ubuntu[*].id
@@ -230,6 +250,11 @@ output "ubuntu_security_group_ids" {
 ########################
 ### Windows Instance ###
 ########################
+
+output "windows_instance_count" {
+  description = "Number of Windows instances"
+  value       = length(aws_instance.windows)
+}
 
 output "windows_instance_ids" {
   description = "Windows instance IDs"
