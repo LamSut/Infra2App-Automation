@@ -1,4 +1,4 @@
-name: Integrate Automatically
+name: Automated Integrate
 
 on:
   push:

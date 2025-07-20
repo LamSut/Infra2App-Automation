@@ -1,4 +1,4 @@
-name: Destroy Manually
+name: Terminate 
 
 on:
   workflow_dispatch:

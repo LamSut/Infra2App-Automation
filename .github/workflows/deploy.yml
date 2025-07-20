@@ -1,4 +1,4 @@
-name: Provision Infrastructure Manually
+name: Manual Deploy
 
 on:
   workflow_dispatch:

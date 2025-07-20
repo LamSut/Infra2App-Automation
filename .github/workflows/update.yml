@@ -1,4 +1,4 @@
-name: Update Application Manually 
+name: Manual Update Application
 
 on:
   workflow_dispatch:
