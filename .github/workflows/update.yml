@@ -20,26 +20,18 @@ jobs:
         with:
           terraform_version: 1.6
 
-      - name: Terraform Init
-        run: terraform init
-        working-directory: terraform
-
-      - name: Terraform Plan
-        run: terraform plan -out=planfile
-        working-directory: terraform
-
-      - name: Upload Planfile as Artifact
-        uses: actions/upload-artifact@v4
+      - name: Cache pip dependencies
+        uses: actions/cache@v4
         with:
-          name: terraform-planfile
-          path: terraform/planfile
+          path: ~/.cache/pip
+          key: shared-pip-cache
 
       - name: Install Python and Ansible dependencies
         run: |
           sudo apt-get update
           sudo apt-get install -y python3-pip
           python3 -m pip install --upgrade pip
-          pip3 install ansible pywinrm requests
+          pip3 install -r requirements.txt
 
       - name: Setup Private Key for Remote Connections
         run: |
@@ -47,17 +39,14 @@ jobs:
           echo "${{ secrets.AWS_PRIVATE_KEY }}" > keys/b2111933-pair.pem
           chmod 600 keys/b2111933-pair.pem
 
-      - name: Download Planfile Artifact
-        uses: dawidd6/action-download-artifact@v7
-        with:
-          workflow: integrate.yml
-          name: terraform-planfile
-          path: terraform
-
       - name: Terraform Init
         run: terraform init
         working-directory: terraform
 
+      - name: Terraform Plan
+        run: terraform plan -out=planfile-update
+        working-directory: terraform
+
       - name: Terraform Apply
-        run: terraform apply -input=false planfile
+        run: terraform apply -input=false planfile-update
         working-directory: terraform
