@@ -112,6 +112,11 @@ output "sg_ids" {
   value       = { for sg_name, sg in aws_security_group.security_groups : sg_name => sg.id }
 }
 
+output "sg_vpc_ids" {
+  description = "VPC IDs for each security group"
+  value       = { for sg_name, sg in aws_security_group.security_groups : sg_name => sg.vpc_id }
+}
+
 output "sg_icmp_rule_ids" {
   description = "IDs for the ICMP self-referencing security group rules"
   value       = { for key, rule in aws_security_group_rule.sg_icmp : key => rule.id }
