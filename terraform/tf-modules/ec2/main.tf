@@ -3,11 +3,11 @@
 ###################################
 
 resource "aws_instance" "ec2_hack" {
-  count = var.deploy_hack ? 1 : 0
+  count = var.provision_hack ? 1 : 0
 
   tags = { Name = "B2111933 Hack Website" }
 
-  ami           = data.aws_ami.ami_amazon_2023.id
+  ami           = var.ami_amazon
   instance_type = var.instance_free
   root_block_device {
     volume_size = 25
@@ -30,11 +30,11 @@ resource "aws_instance" "ec2_hack" {
 }
 
 resource "aws_instance" "ec2_pizza" {
-  count = var.deploy_pizza ? 1 : 0
+  count = var.provision_pizza ? 1 : 0
 
   tags = { Name = "B2111933 Pizza Website" }
 
-  ami           = data.aws_ami.ami_ubuntu_2404.id
+  ami           = var.ami_ubuntu
   instance_type = var.instance_free
   root_block_device {
     volume_size = 25
@@ -57,7 +57,7 @@ resource "aws_instance" "ec2_pizza" {
 }
 
 resource "aws_eip" "eip_hack" {
-  count = var.deploy_hack ? 1 : 0
+  count = var.provision_hack ? 1 : 0
 
   tags     = { Name = "B2111933 Hack Website EIP" }
   instance = aws_instance.ec2_hack[0].id
@@ -66,7 +66,7 @@ resource "aws_eip" "eip_hack" {
 }
 
 resource "aws_eip" "eip_pizza" {
-  count = var.deploy_pizza ? 1 : 0
+  count = var.provision_pizza ? 1 : 0
 
   tags     = { Name = "B2111933 Pizza Website EIP" }
   instance = aws_instance.ec2_pizza[0].id
@@ -91,7 +91,7 @@ locals {
 }
 
 resource "null_resource" "hack_config" {
-  count = var.deploy_hack ? 1 : 0
+  count = var.provision_hack ? 1 : 0
 
   triggers = {
     always_run = timestamp()
@@ -114,7 +114,7 @@ resource "null_resource" "hack_config" {
 }
 
 resource "null_resource" "pizza_config" {
-  count = var.deploy_pizza ? 1 : 0
+  count = var.provision_pizza ? 1 : 0
 
   triggers = {
     always_run = timestamp()
@@ -141,7 +141,7 @@ resource "null_resource" "pizza_config" {
 ################################
 
 resource "null_resource" "hack_access_check" {
-  count      = var.deploy_hack ? 1 : 0
+  count      = var.provision_hack ? 1 : 0
   depends_on = [null_resource.hack_config]
 
   triggers = {
@@ -166,7 +166,7 @@ resource "null_resource" "hack_access_check" {
 }
 
 resource "null_resource" "pizza_access_check" {
-  count      = var.deploy_pizza ? 1 : 0
+  count      = var.provision_pizza ? 1 : 0
   depends_on = [null_resource.pizza_config]
 
   triggers = {

@@ -8,6 +8,9 @@ module "ec2" {
   # private_subnet = module.vpc.private_subnet_ids
   public_subnet  = module.vpc.public_subnet_ids
   security_group = module.vpc.sg_ids
+  ami_amazon     = data.aws_ami.ami_amazon_2023.id
+  ami_ubuntu     = data.aws_ami.ami_ubuntu_2404.id
+  ami_windows    = data.aws_ami.ami_windows_2025.id
 }
 
 output "all_public_ips" {

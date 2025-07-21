@@ -209,12 +209,12 @@ output "amazon_security_group_ids" {
 
 output "amazon_volume_size" {
   description = "Root volume size (GiB) of Amazon instance"
-  value       = length(aws_instance.amazon) > 0 ? aws_instance.amazon[0].root_block_device[0].volume_size : 0
+  value       = aws_instance.amazon[*].root_block_device[0].volume_size
 }
 
 output "amazon_volume_type" {
   description = "Root volume type of Amazon instance"
-  value       = length(aws_instance.amazon) > 0 ? aws_instance.amazon[0].root_block_device[0].volume_type : ""
+  value       = aws_instance.amazon[*].root_block_device[0].volume_type
 }
 
 
@@ -279,12 +279,12 @@ output "ubuntu_security_group_ids" {
 
 output "ubuntu_volume_size" {
   description = "Root volume size (GiB) of Ubuntu instance"
-  value       = length(aws_instance.ubuntu) > 0 ? aws_instance.ubuntu[0].root_block_device[0].volume_size : 0
+  value       = aws_instance.ubuntu[*].root_block_device[0].volume_size
 }
 
 output "ubuntu_volume_type" {
   description = "Root volume type of Ubuntu instance"
-  value       = length(aws_instance.ubuntu) > 0 ? aws_instance.ubuntu[0].root_block_device[0].volume_type : ""
+  value       = aws_instance.ubuntu[*].root_block_device[0].volume_type
 }
 
 
@@ -349,10 +349,10 @@ output "windows_security_group_ids" {
 
 output "windows_volume_size" {
   description = "Root volume size (GiB) of Windows instance"
-  value       = length(aws_instance.windows) > 0 ? aws_instance.windows[0].root_block_device[0].volume_size : 0
+  value       = aws_instance.windows[*].root_block_device[0].volume_size
 }
 
 output "windows_volume_type" {
   description = "Root volume type of Windows instance"
-  value       = length(aws_instance.windows) > 0 ? aws_instance.windows[0].root_block_device[0].volume_type : ""
+  value       = aws_instance.windows[*].root_block_device[0].volume_type
 }
