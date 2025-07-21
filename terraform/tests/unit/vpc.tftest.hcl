@@ -14,7 +14,7 @@ variables {
 ### Networking Tests ###
 ########################
 
-run "vpc_network_tests" {
+run "network_tests" {
   command = plan
 
   assert {
@@ -68,7 +68,7 @@ run "vpc_network_tests" {
 ### Security Group Tests ###
 ############################
 
-run "security_group_tests" {
+run "sg_tests" {
   command = plan
 
   assert {

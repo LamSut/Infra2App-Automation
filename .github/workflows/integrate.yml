@@ -88,5 +88,5 @@ jobs:
           chmod 600 keys/b2111933-pair.pem
 
       - name: Terraform Integration Test
-        run: terraform test --test-directory=tests/integration
+        run: terraform test
         working-directory: terraform
