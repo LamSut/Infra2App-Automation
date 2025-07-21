@@ -2,7 +2,7 @@
   hosts: all
   gather_facts: yes
   vars:
-    nginx_version: "1.27.4"
+    nginx_version: "1.29.0"
   tasks:
     - name: Install Nginx via Chocolatey
       win_chocolatey:
