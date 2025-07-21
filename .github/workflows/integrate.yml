@@ -81,6 +81,12 @@ jobs:
         run: terraform test --test-directory=tests/unit
         working-directory: terraform
 
+      - name: Setup Private Key for Remote Connections
+        run: |
+          mkdir -p keys
+          echo "${{ secrets.AWS_PRIVATE_KEY }}" > keys/b2111933-pair.pem
+          chmod 600 keys/b2111933-pair.pem
+
       - name: Terraform Integration Test
         run: terraform test --test-directory=tests/integration
         working-directory: terraform
