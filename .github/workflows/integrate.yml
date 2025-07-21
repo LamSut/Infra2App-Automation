@@ -47,12 +47,15 @@ jobs:
         with:
           terraform_version: 1.6
 
+      - name: Write TFVARS file
+        run: echo "${{ vars.TF_VARS }}" > terraform/provision.tfvars
+
       - name: Terraform Init
         run: terraform init
         working-directory: terraform
 
       - name: Terraform Plan
-        run: terraform plan -out=planfile
+        run: terraform plan -out=planfile -var-file="provision.tfvars"
         working-directory: terraform
 
       - name: Upload Planfile as Artifact

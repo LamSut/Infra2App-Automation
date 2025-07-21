@@ -45,8 +45,11 @@ jobs:
         run: terraform init
         working-directory: terraform
 
+      - name: Write TFVARS file
+        run: echo "${{ vars.TF_VARS }}" > terraform/provision.tfvars
+
       - name: Terraform Plan
-        run: terraform plan -out=planfile-update
+        run: terraform plan -out=planfile-update -var-file="provision.tfvars"
         working-directory: terraform
 
       - name: Terraform Apply
