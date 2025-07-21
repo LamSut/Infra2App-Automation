@@ -77,14 +77,10 @@ jobs:
         run: terraform init
         working-directory: terraform
 
-      - name: Terraform VPC Unit Test
-        run: terraform test --test-directory=tf-modules/vpc
-        working-directory: terraform
-
-      - name: Terraform EC2 Unit Test
-        run: terraform test --test-directory=tf-modules/ec2
+      - name: Terraform Unit Test
+        run: terraform test --test-directory=tests/unit
         working-directory: terraform
 
       - name: Terraform Integration Test
-        run: terraform test
+        run: terraform test --test-directory=tests/integration
         working-directory: terraform
