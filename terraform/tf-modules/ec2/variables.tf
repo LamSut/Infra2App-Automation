@@ -11,25 +11,25 @@ variable "provision_hack" {
 variable "provision_pizza" {
   description = "Provision EC2 for Pizza Website or not"
   type        = bool
-  default     = false
+  default     = true
 }
 
 variable "provision_amazon" {
   description = "Number of Amazon Linux EC2 instances to provision"
   type        = number
-  default     = 0
+  default     = 1
 }
 
 variable "provision_ubuntu" {
   description = "Number of Ubuntu EC2 instances to provision"
   type        = number
-  default     = 0
+  default     = 1
 }
 
 variable "provision_windows" {
   description = "Number of Windows EC2 instances to provision"
   type        = number
-  default     = 0
+  default     = 1
 }
 
 
