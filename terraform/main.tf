@@ -1,5 +1,12 @@
 module "vpc" {
   source = "./tf-modules/vpc"
+
+  default_cidr   = var.default_cidr
+  vpc_cidr       = var.vpc_cidr
+  public_subnets = var.public_subnets
+  # private_subnets = var.private_subnets
+
+  security_groups_config = var.security_groups_config
 }
 
 module "ec2" {
