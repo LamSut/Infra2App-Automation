@@ -6,6 +6,7 @@ provider "aws" {
   region = "us-east-1"
 }
 
+###################################################################################################################
 
 #####################
 ### EC2 Instances ###
@@ -41,6 +42,18 @@ variable "provision_windows" {
   default     = 0
 }
 
+
+######################
+### EC2 Networking ###
+######################
+
+variable "security_group" {
+  type = map(string)
+  default = {
+    "sg_linux"   = "sg_linux",
+    "sg_windows" = "sg_windows"
+  }
+}
 
 #####################
 ### Free AWS AMIs ###
@@ -90,3 +103,55 @@ data "aws_ami" "ami_windows_2025" {
     values = ["hvm"]
   }
 }
+
+
+###########################
+### Free Instance Types ###
+###########################
+
+variable "instance_free" {
+  type    = string
+  default = "t3.small"
+}
+
+
+###################
+### Access Keys ###
+###################
+
+variable "private_key_name" {
+  type    = string
+  default = "b2111933-pair"
+}
+
+variable "private_key_path" {
+  type    = string
+  default = "../keys/b2111933-pair.pem"
+}
+
+
+#########################
+### Setup for Ansible ###
+#########################
+
+variable "setup_linux" {
+  default = "../ansible/setup/linux.sh" # This script has Git & Docker
+}
+
+variable "setup_windows" {
+  default = "../ansible/setup/windows.ps1"
+}
+
+#########################
+### Ansible Playbooks ###
+#########################
+
+variable "pb_linux_path" {
+  default = "../ansible/playbooks/linux"
+}
+
+variable "pb_windows_path" {
+  default = "../ansible/playbooks/windows"
+}
+
+###################################################################################################################

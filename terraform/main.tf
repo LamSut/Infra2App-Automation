@@ -15,9 +15,19 @@ module "ec2" {
   provision_ubuntu  = var.provision_ubuntu
   provision_windows = var.provision_windows
 
-  ami_amazon  = data.aws_ami.ami_amazon_2023.id
-  ami_ubuntu  = data.aws_ami.ami_ubuntu_2404.id
-  ami_windows = data.aws_ami.ami_windows_2025.id
+  ami_amazon    = data.aws_ami.ami_amazon_2023.id
+  ami_ubuntu    = data.aws_ami.ami_ubuntu_2404.id
+  ami_windows   = data.aws_ami.ami_windows_2025.id
+  instance_free = var.instance_free
+
+  private_key_name = var.private_key_name
+  private_key_path = var.private_key_path
+
+  setup_linux   = var.setup_linux
+  setup_windows = var.setup_windows
+
+  pb_linux_path   = var.pb_linux_path
+  pb_windows_path = var.pb_windows_path
 }
 
 output "all_public_ips" {

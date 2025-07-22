@@ -47,7 +47,6 @@ variable "public_subnets" {
 # }
 
 
-
 #######################
 ### Security Groups ###
 #######################

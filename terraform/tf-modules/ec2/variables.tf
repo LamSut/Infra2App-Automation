@@ -13,14 +13,7 @@ variable "provision_windows" {}
 ### VPC Networking ###
 ######################
 
-variable "security_group" {
-  type = map(string)
-  default = {
-    "sg_linux"   = "sg_linux",
-    "sg_windows" = "sg_windows"
-  }
-}
-
+variable "security_group" {}
 variable "public_subnet" {}
 # variable "private_subnet" {}
 
@@ -38,47 +31,28 @@ variable "ami_windows" {}
 ### Free Instance Types ###
 ###########################
 
-variable "instance_free" {
-  type    = string
-  default = "t3.small"
-}
+variable "instance_free" {}
 
 
 ###################
 ### Access Keys ###
 ###################
 
-variable "private_key_name" {
-  type    = string
-  default = "b2111933-pair"
-}
-
-variable "private_key_path" {
-  type    = string
-  default = "../keys/b2111933-pair.pem"
-}
+variable "private_key_name" {}
+variable "private_key_path" {}
 
 
 #########################
 ### Setup for Ansible ###
 #########################
 
-variable "setup_linux" {
-  default = "../ansible/setup/linux.sh" # This script has Git & Docker
-}
+variable "setup_linux" {}
+variable "setup_windows" {}
 
-variable "setup_windows" {
-  default = "../ansible/setup/windows.ps1"
-}
 
 #########################
 ### Ansible Playbooks ###
 #########################
 
-variable "pb_linux_path" {
-  default = "../ansible/playbooks/linux"
-}
-
-variable "pb_windows_path" {
-  default = "../ansible/playbooks/windows"
-}
+variable "pb_linux_path" {}
+variable "pb_windows_path" {}
