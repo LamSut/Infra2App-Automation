@@ -69,6 +69,8 @@ variable "security_groups_config" {
     }))
   }))
   default = {
+
+    # Security Group for Linux instances
     sg_linux = {
       description = "Security Group for Linux"
       ingress = [
@@ -96,12 +98,6 @@ variable "security_groups_config" {
           protocol    = "tcp"
           cidr_blocks = ["115.78.6.138/32"] # Admin VPN IP
         },
-        # {
-        #   from_port   = 5173
-        #   to_port     = 5173
-        #   protocol    = "tcp"
-        #   cidr_blocks = ["0.0.0.0/0"]
-        # },
         {
           from_port   = -1
           to_port     = -1
@@ -118,6 +114,8 @@ variable "security_groups_config" {
         }
       ]
     },
+
+    # Security Group for Windows instances
     sg_windows = {
       description = "Security Group for Windows"
       ingress = [
@@ -139,12 +137,6 @@ variable "security_groups_config" {
           protocol    = "tcp"
           cidr_blocks = ["0.0.0.0/0"]
         },
-        # {
-        #   from_port   = 5173
-        #   to_port     = 5173
-        #   protocol    = "tcp"
-        #   cidr_blocks = ["0.0.0.0/0"]
-        # },
         {
           from_port   = 5986
           to_port     = 5986

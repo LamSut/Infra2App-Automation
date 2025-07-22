@@ -48,7 +48,10 @@ jobs:
           terraform_version: 1.6
 
       - name: Write TFVARS file
-        run: echo "${{ vars.TF_VARS }}" > terraform/provision.tfvars
+        run: |
+          echo "${{ vars.NW_TFVARS }}" > terraform/provision.tfvars
+          echo "${{ vars.SG_TFVARS }}" >> terraform/provision.tfvars
+          echo "${{ vars.VM_TFVARS }}" >> terraform/provision.tfvars
 
       - name: Terraform Init
         run: terraform init
