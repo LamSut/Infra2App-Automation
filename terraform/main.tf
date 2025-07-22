@@ -1,3 +1,16 @@
+######################
+### Cloud Provider ###
+######################
+
+provider "aws" {
+  region = "us-east-1"
+}
+
+
+##################
+### VPC Module ###
+##################
+
 module "vpc" {
   source = "./tf-modules/vpc"
 
@@ -8,6 +21,11 @@ module "vpc" {
 
   security_groups_config = var.security_groups_config
 }
+
+
+##################
+### EC2 Module ###
+##################
 
 module "ec2" {
   source = "./tf-modules/ec2"
@@ -36,6 +54,11 @@ module "ec2" {
   pb_linux_path   = var.pb_linux_path
   pb_windows_path = var.pb_windows_path
 }
+
+
+###############
+### Outputs ###
+###############
 
 output "all_public_ips" {
   description = "Public IPs of all instances"
