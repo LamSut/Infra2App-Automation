@@ -47,9 +47,13 @@ jobs:
 
       - name: Write TFVARS file
         run: |
-          echo "${{ vars.NW_TFVARS }}" > terraform/provision.tfvars
-          echo "${{ vars.SG_TFVARS }}" >> terraform/provision.tfvars
-          echo "${{ vars.VM_TFVARS }}" >> terraform/provision.tfvars
+          cat <<EOF > terraform/provision.tfvars
+          ${{ vars.NW_TFVARS }}
+
+          ${{ vars.SG_TFVARS }}
+
+          ${{ vars.VM_TFVARS }}
+          EOF
 
       - name: Terraform Plan
         run: terraform plan -out=planfile-update -var-file="provision.tfvars"
