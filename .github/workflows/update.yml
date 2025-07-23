@@ -46,8 +46,9 @@ jobs:
         working-directory: terraform
 
       - name: Download TFVARS
-        uses: actions/download-artifact@v4
+        uses: dawidd6/action-download-artifact@v7
         with:
+          workflow: integrate.yml
           name: tfvars
           path: terraform
 
