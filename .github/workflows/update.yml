@@ -45,15 +45,11 @@ jobs:
         run: terraform init
         working-directory: terraform
 
-      - name: Write TFVARS file
-        run: |
-          cat <<EOF > terraform/provision.tfvars
-          ${{ vars.NW_TFVARS }}
-
-          ${{ vars.SG_TFVARS }}
-
-          ${{ vars.VM_TFVARS }}
-          EOF
+      - name: Download TFVARS
+        uses: actions/download-artifact@v4
+        with:
+          name: tfvars
+          path: terraform
 
       - name: Terraform Plan
         run: terraform plan -out=planfile-update -var-file="provision.tfvars"

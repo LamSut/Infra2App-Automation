@@ -35,20 +35,15 @@ jobs:
         run: terraform validate
         working-directory: terraform
 
-  plan:
+  tfvars:
     runs-on: ubuntu-latest
-    needs: validate
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
 
-      - name: Set up Terraform
-        uses: hashicorp/setup-terraform@v2
-        with:
-          terraform_version: 1.6
-
       - name: Write TFVARS file
         run: |
+          mkdir -p terraform
           cat <<EOF > terraform/provision.tfvars
           ${{ vars.NW_TFVARS }}
 
@@ -57,23 +52,15 @@ jobs:
           ${{ vars.VM_TFVARS }}
           EOF
 
-      - name: Terraform Init
-        run: terraform init
-        working-directory: terraform
-
-      - name: Terraform Plan
-        run: terraform plan -out=planfile -var-file="provision.tfvars"
-        working-directory: terraform
-
-      - name: Upload Planfile as Artifact
+      - name: Upload TFVARS file
         uses: actions/upload-artifact@v4
         with:
-          name: terraform-planfile
-          path: terraform/planfile
+          name: tfvars
+          path: terraform/provision.tfvars
 
   test:
     runs-on: ubuntu-latest
-    needs: plan
+    needs: validate
     steps:
       - name: Checkout Code
         uses: actions/checkout@v3
@@ -112,6 +99,44 @@ jobs:
           echo "${{ secrets.AWS_PRIVATE_KEY }}" > keys/b2111933-pair.pem
           chmod 600 keys/b2111933-pair.pem
 
+      - name: Download TFVARS
+        uses: actions/download-artifact@v4
+        with:
+          name: tfvars
+          path: terraform
+
       - name: Terraform Integration Test
-        run: terraform test
+        run: terraform test -var-file="provision.tfvars"
         working-directory: terraform
+
+  plan:
+    runs-on: ubuntu-latest
+    needs: test
+    steps:
+      - name: Checkout Code
+        uses: actions/checkout@v3
+
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v2
+        with:
+          terraform_version: 1.6
+
+      - name: Terraform Init
+        run: terraform init
+        working-directory: terraform
+
+      - name: Download TFVARS
+        uses: actions/download-artifact@v4
+        with:
+          name: tfvars
+          path: terraform
+
+      - name: Terraform Plan
+        run: terraform plan -out=planfile -var-file="provision.tfvars"
+        working-directory: terraform
+
+      - name: Upload Planfile as Artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: terraform-planfile
+          path: terraform/planfile
