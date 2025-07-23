@@ -71,6 +71,7 @@ variable "security_groups_config" {
   default = {
 
     # Security Group for Linux instances
+
     sg_linux = {
       description = "Security Group for Linux"
       ingress = [
@@ -116,6 +117,7 @@ variable "security_groups_config" {
     },
 
     # Security Group for Windows instances
+
     sg_windows = {
       description = "Security Group for Windows"
       ingress = [
@@ -278,7 +280,6 @@ variable "private_key_path" {
   type    = string
   default = "../keys/b2111933-pair.pem"
 }
-
 
 
 ### Setup for Ansible ###
