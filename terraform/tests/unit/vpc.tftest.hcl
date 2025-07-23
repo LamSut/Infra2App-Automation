@@ -14,7 +14,7 @@ variables {
 ### Networking Tests ###
 ########################
 
-run "network_tests" {
+run "vpc_config_tests" {
   command = plan
 
   assert {
@@ -31,6 +31,10 @@ run "network_tests" {
     condition     = module.vpc.vpc_dns_support_enabled == true
     error_message = "DNS support must be enabled in the VPC."
   }
+}
+
+run "vpc_public_tests" {
+  command = plan
 
   assert {
     condition     = module.vpc.public_subnet_count > 0
@@ -54,7 +58,7 @@ run "network_tests" {
 
   assert {
     condition     = module.vpc.public_rt_tags != ""
-    error_message = "Must have an Pucblic Route Table."
+    error_message = "Must have a Public Route Table."
   }
 
   assert {
@@ -64,11 +68,11 @@ run "network_tests" {
 }
 
 
-############################
-### Security Group Tests ###
-############################
+#############################
+### Security Groups Tests ###
+#############################
 
-run "sg_tests" {
+run "sg_config_tests" {
   command = plan
 
   assert {
@@ -90,6 +94,10 @@ run "sg_tests" {
     condition     = length(module.vpc.egress_rule_ids) > 0
     error_message = "Security group Egress rules must be defined."
   }
+}
+
+run "sg_linux_tests" {
+  command = plan
 
   assert {
     condition = alltrue([
@@ -99,6 +107,15 @@ run "sg_tests" {
   }
 
   assert {
+    condition     = contains(module.vpc.sg_icmp_rule_keys, "sg_linux")
+    error_message = "ICMP self-referencing rule must be set for the Linux security group."
+  }
+}
+
+run "sg_windows_tests" {
+  command = plan
+
+  assert {
     condition = alltrue([
       for p in var.sg_windows_required_ports : contains(module.vpc.sg_windows_ingress_ports, p)
     ])
@@ -106,7 +123,7 @@ run "sg_tests" {
   }
 
   assert {
-    condition     = alltrue([for k in module.vpc.sg_icmp_rule_keys : contains(["sg_linux", "sg_windows"], split("-", k)[0])])
-    error_message = "ICMP self-referencing rules must be set for both Linux and Windows security groups."
+    condition     = contains(module.vpc.sg_icmp_rule_keys, "sg_windows")
+    error_message = "ICMP self-referencing rule must be set for the Windows security group."
   }
 }

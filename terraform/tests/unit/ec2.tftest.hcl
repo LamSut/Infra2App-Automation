@@ -8,11 +8,11 @@ variables {
 }
 
 
-#############################
-### Hack Website Instance ###
-#############################
+###################################
+### Hack Website Instance Tests ###
+###################################
 
-run "hack_tests" {
+run "ec2_hack_tests" {
   command = plan
 
   assert {
@@ -41,11 +41,11 @@ run "hack_tests" {
   }
 }
 
-##############################
-### Pizza Website Instance ###
-##############################
+####################################
+### Pizza Website Instance Tests ###
+####################################
 
-run "pizza_tests" {
+run "ec2_pizza_tests" {
   command = plan
 
   assert {
@@ -74,11 +74,11 @@ run "pizza_tests" {
   }
 }
 
-########################
-### Amazon Instances ###
-########################
+##############################
+### Amazon Instances Tests ###
+##############################
 
-run "amazon_tests" {
+run "ec2_amazon_tests" {
   command = plan
 
   assert {
@@ -118,11 +118,11 @@ run "amazon_tests" {
 }
 
 
-########################
-### Ubuntu Instances ###
-########################
+##############################
+### Ubuntu Instances Tests ###
+##############################
 
-run "ubuntu_tests" {
+run "ec2_ubuntu_tests" {
   command = plan
 
   assert {
@@ -161,11 +161,11 @@ run "ubuntu_tests" {
   }
 }
 
-########################
-### Windows Instance ###
-########################
+###############################
+### Windows Instances Tests ###
+###############################
 
-run "windows_tests" {
+run "ec2_windows_tests" {
   command = plan
 
   assert {
