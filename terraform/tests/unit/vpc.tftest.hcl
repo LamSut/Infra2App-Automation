@@ -47,8 +47,8 @@ run "vpc_public_tests" {
   }
 
   assert {
-    condition     = alltrue([for az in module.vpc.public_subnet_azs : startswith(az, "us-east-1")])
-    error_message = "All public subnets must be in us-east-1 region."
+    condition     = alltrue([for az in module.vpc.public_subnet_azs : startswith(az, "ap-southeast-1")])
+    error_message = "All public subnets must be in ap-southeast-1 region."
   }
 
   assert {

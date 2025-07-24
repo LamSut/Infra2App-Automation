@@ -23,11 +23,11 @@ variable "public_subnets" {
   default = [
     {
       cidr_block        = "10.0.1.0/24"
-      availability_zone = "us-east-1a"
+      availability_zone = "ap-southeast-1a"
     },
     # {
     #   cidr_block        = "10.0.2.0/24"
-    #   availability_zone = "us-east-1a"
+    #   availability_zone = "ap-southeast-1a"
     # },
   ]
 }
@@ -40,11 +40,11 @@ variable "public_subnets" {
 #   default = [
 #     {
 #       cidr_block        = "10.0.101.0/24"
-#       availability_zone = "us-east-1a"
+#       availability_zone = "ap-southeast-1a"
 #     },
 #     {
 #       cidr_block        = "10.0.102.0/24"
-#       availability_zone = "us-east-1a"
+#       availability_zone = "ap-southeast-1a"
 #     },
 #   ]
 # }
