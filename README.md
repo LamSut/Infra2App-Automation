@@ -4,7 +4,7 @@ This implementation automates infrastructure provisioning and application deploy
 The process ensures a consistent and maintainable system through the following stages:  
 * Infrastructure Provisioning: Terraform provisions AWS infrastructure components.
 * Configuration Management: Ansible handles remote application deployment after provisioning.
-* Containerization: Docker containers enable consistent deployment across different environments.
+* Containerization: [Docker containers](https://github.com/LamSut/ContainYourself) enable consistent deployment across different environments.
 * Security Hardening: Secure protocols and headers protect against common web threats.
 * Blue-Green Deployment: Parallel environments enable updates with minimal downtime.
 * CI/CD: GitHub Actions automates build, test and deployment workflows.
