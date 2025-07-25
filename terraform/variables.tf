@@ -295,10 +295,37 @@ variable "setup_windows" {
 
 ### Ansible Playbooks ###
 
-variable "pb_linux_path" {
-  default = "../ansible/playbooks/linux"
+variable "hack_playbooks" {
+  type = list(string)
+  default = [
+    "../ansible/playbooks/linux/hack-website/install.yaml",
+  ]
 }
 
-variable "pb_windows_path" {
-  default = "../ansible/playbooks/windows"
+variable "pizza_playbooks" {
+  type = list(string)
+  default = [
+    "../ansible/playbooks/linux/pizza-website/install.yaml",
+  ]
+}
+
+variable "amazon_playbooks" {
+  type = list(string)
+  default = [
+    "../ansible/playbooks/linux/nginx/install.yaml",
+  ]
+}
+
+variable "ubuntu_playbooks" {
+  type = list(string)
+  default = [
+    "../ansible/playbooks/linux/nginx/install.yaml",
+  ]
+}
+
+variable "windows_playbooks" {
+  type = list(string)
+  default = [
+    "../ansible/playbooks/windows/nginx/install.yaml",
+  ]
 }

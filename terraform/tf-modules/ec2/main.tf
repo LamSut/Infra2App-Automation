@@ -79,14 +79,14 @@ resource "aws_eip" "eip_pizza" {
 ################################
 
 locals {
-  hack_user  = "ec2-user"
-  pizza_user = "ubuntu"
-
-  hack_playbooks = [
-    "${var.pb_linux_path}/hack-website/install.yaml",
+  hack_user = "ec2-user"
+  hack_playbooks = var.hack_playbooks != null ? var.hack_playbooks : [
+    "../ansible/playbooks/linux/hack-website/install.yaml",
   ]
-  pizza_playbooks = [
-    "${var.pb_linux_path}/pizza-website/install.yaml",
+
+  pizza_user = "ubuntu"
+  pizza_playbooks = var.pizza_playbooks != null ? var.pizza_playbooks : [
+    "../ansible/playbooks/linux/pizza-website/install.yaml",
   ]
 }
 

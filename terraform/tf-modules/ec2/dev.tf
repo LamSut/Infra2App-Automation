@@ -82,23 +82,20 @@ resource "aws_instance" "windows" {
 locals {
   amazon_public_ips = concat(aws_instance.amazon[*].public_ip)
   amazon_users      = concat([for i in aws_instance.amazon : "ec2-user"])
+  amazon_playbooks = var.amazon_playbooks != null ? var.amazon_playbooks : [
+    "../ansible/playbooks/linux/nginx/install.yaml",
+  ]
 
   ubuntu_public_ips = concat(aws_instance.ubuntu[*].public_ip)
   ubuntu_users      = concat([for i in aws_instance.ubuntu : "ubuntu"])
+  ubuntu_playbooks = var.ubuntu_playbooks != null ? var.ubuntu_playbooks : [
+    "../ansible/playbooks/linux/nginx/install.yaml",
+  ]
 
   windows_public_ips = aws_instance.windows[*].public_ip
   windows_users      = [for i in aws_instance.windows : "Administrator"]
-
-  amazon_playbooks = [
-    "${var.pb_linux_path}/nginx/install.yaml",
-  ]
-
-  ubuntu_playbooks = [
-    "${var.pb_linux_path}/nginx/install.yaml",
-  ]
-
-  windows_playbooks = [
-    "${var.pb_windows_path}/nginx/install.yaml"
+  windows_playbooks = var.windows_playbooks != null ? var.windows_playbooks : [
+    "../ansible/playbooks/windows/nginx/install.yaml",
   ]
 }
 

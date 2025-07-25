@@ -51,8 +51,11 @@ module "ec2" {
   setup_linux   = var.setup_linux
   setup_windows = var.setup_windows
 
-  pb_linux_path   = var.pb_linux_path
-  pb_windows_path = var.pb_windows_path
+  hack_playbooks    = var.hack_playbooks
+  pizza_playbooks   = var.pizza_playbooks
+  amazon_playbooks  = var.amazon_playbooks
+  ubuntu_playbooks  = var.ubuntu_playbooks
+  windows_playbooks = var.windows_playbooks
 }
 
 

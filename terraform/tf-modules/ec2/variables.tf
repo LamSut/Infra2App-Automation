@@ -54,5 +54,8 @@ variable "setup_windows" {}
 ### Ansible Playbooks ###
 #########################
 
-variable "pb_linux_path" {}
-variable "pb_windows_path" {}
+variable "hack_playbooks" {}
+variable "pizza_playbooks" {}
+variable "amazon_playbooks" {}
+variable "ubuntu_playbooks" {}
+variable "windows_playbooks" {}
