@@ -1,19 +1,11 @@
-###############################
-### Terraform Configuration ###
-###############################
+######################
+### Cloud Provider ###
+######################
 
 provider "aws" {
   region = "ap-southeast-1"
 }
 
-terraform {
-  backend "s3" {
-    bucket         = "b2111933-store"
-    key            = "b2111933-state"
-    region         = "ap-southeast-1"
-    dynamodb_table = "b2111933-lock"
-  }
-}
 
 ##################
 ### VPC Module ###
@@ -25,9 +17,11 @@ module "vpc" {
   default_cidr   = var.default_cidr
   vpc_cidr       = var.vpc_cidr
   public_subnets = var.public_subnets
+  # private_subnets = var.private_subnets
 
   security_groups_config = var.security_groups_config
 }
+
 
 ##################
 ### EC2 Module ###
@@ -36,6 +30,7 @@ module "vpc" {
 module "ec2" {
   source = "./tf-modules/ec2"
 
+  # private_subnet = module.vpc.private_subnet_ids
   public_subnet  = module.vpc.public_subnet_ids
   security_group = module.vpc.sg_ids
 
@@ -61,4 +56,25 @@ module "ec2" {
   amazon_playbooks  = var.amazon_playbooks
   ubuntu_playbooks  = var.ubuntu_playbooks
   windows_playbooks = var.windows_playbooks
+}
+
+
+###############
+### Outputs ###
+###############
+
+output "all_public_ips" {
+  description = "Public IPs of all instances"
+
+  value = {
+    hack       = module.ec2.hack_public_ip
+    hack_admin = module.ec2.hack_admin_url # Username: root, Password empty
+
+    pizza       = module.ec2.pizza_public_ip
+    pizza_admin = module.ec2.pizza_admin_url
+
+    ec2_amazon  = module.ec2.amazon_public_ips
+    ec2_ubuntu  = module.ec2.ubuntu_public_ips
+    ec2_windows = module.ec2.windows_public_ips
+  }
 }
