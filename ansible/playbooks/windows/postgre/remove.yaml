@@ -1,0 +1,40 @@
+- name: Uninstall PostgreSQL on Windows
+  hosts: windows
+  gather_facts: yes
+  become: false
+
+  tasks:
+    - name: Get list of PostgreSQL services
+      win_shell: |
+        Get-Service | Where-Object { $_.Name -like "postgresql-x64-*" } | Select-Object -ExpandProperty Name
+      register: pg_services
+
+    - name: Set fact for detected PostgreSQL service name
+      set_fact:
+        pg_service_name: "{{ pg_services.stdout_lines[0] | default('') }}"
+      when: pg_services.stdout_lines | length > 0
+
+    - name: Uninstall PostgreSQL using Chocolatey
+      win_chocolatey:
+        name: postgresql
+        state: absent
+
+    - name: Stop and disable PostgreSQL service if found
+      win_service:
+        name: "{{ pg_service_name }}"
+        state: stopped
+        start_mode: disabled
+      when: pg_service_name != ''
+      ignore_errors: yes
+
+    - name: Remove PostgreSQL install directory
+      win_file:
+        path: 'C:\Program Files\PostgreSQL'
+        state: absent
+      ignore_errors: yes
+
+    - name: Remove PostgreSQL data directory (if exists)
+      win_file:
+        path: 'C:\PostgreSQLData'
+        state: absent
+      ignore_errors: yes

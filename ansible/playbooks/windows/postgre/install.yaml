@@ -1,0 +1,25 @@
+- name: Install PostgreSQL on Windows using Chocolatey
+  hosts: windows
+  gather_facts: yes
+  become: false
+
+  vars:
+    postgresql_version: '15'
+
+  tasks:
+    - name: Ensure Chocolatey is installed
+      win_chocolatey:
+        name: chocolatey
+        state: present
+
+    - name: Install PostgreSQL using Chocolatey
+      win_chocolatey:
+        name: postgresql
+        version: "{{ postgresql_version }}"
+        state: present
+
+    - name: Ensure PostgreSQL service is started
+      win_service:
+        name: "postgresql-x64-{{ postgresql_version }}"
+        start_mode: auto
+        state: started

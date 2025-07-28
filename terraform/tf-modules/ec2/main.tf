@@ -285,7 +285,6 @@ resource "null_resource" "windows_config" {
   provisioner "local-exec" {
     command = <<EOT
       echo "Waiting for Windows startup (60s)..."
-      sleep 60
       while ! nc -z ${local.windows_public_ips[count.index]} 5986; do
         echo "Waiting for Windows to be ready..."
         sleep 10
