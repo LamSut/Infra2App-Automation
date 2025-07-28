@@ -25,11 +25,9 @@ module "vpc" {
   default_cidr   = var.default_cidr
   vpc_cidr       = var.vpc_cidr
   public_subnets = var.public_subnets
-  # private_subnets = var.private_subnets
 
   security_groups_config = var.security_groups_config
 }
-
 
 ##################
 ### EC2 Module ###
@@ -38,7 +36,6 @@ module "vpc" {
 module "ec2" {
   source = "./tf-modules/ec2"
 
-  # private_subnet = module.vpc.private_subnet_ids
   public_subnet  = module.vpc.public_subnet_ids
   security_group = module.vpc.sg_ids
 
