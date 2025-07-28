@@ -2,7 +2,6 @@
 ######## VPC ########
 #####################
 
-
 ### Network Configuration ###
 
 variable "default_cidr" {
@@ -157,7 +156,6 @@ variable "security_groups_config" {
 ######## EC2 ########
 #####################
 
-
 ### EC2 Instances ###
 
 variable "provision_hack" {
@@ -190,16 +188,6 @@ variable "provision_windows" {
   default     = 1
 }
 
-
-### EC2 Networking ###
-
-variable "security_group" {
-  type = map(string)
-  default = {
-    "sg_linux"   = "sg_linux",
-    "sg_windows" = "sg_windows"
-  }
-}
 
 ### Free AWS AMIs ###
 
