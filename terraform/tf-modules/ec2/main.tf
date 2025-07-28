@@ -361,39 +361,47 @@ resource "null_resource" "pizza_access_check" {
   }
 }
 
+
+locals {
+  run_amazon_http_check  = length([for pb in local.amazon_playbooks : pb if can(regex("nginx", pb))]) > 0
+  run_ubuntu_http_check  = length([for pb in local.ubuntu_playbooks : pb if can(regex("nginx", pb))]) > 0
+  run_windows_http_check = length([for pb in local.windows_playbooks : pb if can(regex("nginx", pb))]) > 0
+}
+
 resource "null_resource" "amazon_access_check_trigger" {
-  count      = length(local.amazon_public_ips)
+  count      = local.run_amazon_http_check ? length(local.amazon_public_ips) : 0
   depends_on = [null_resource.amazon_config]
+
   triggers = {
     always_run = timestamp()
   }
 }
 
 resource "null_resource" "ubuntu_access_check_trigger" {
-  count      = length(local.ubuntu_public_ips)
+  count      = local.run_ubuntu_http_check ? length(local.ubuntu_public_ips) : 0
   depends_on = [null_resource.ubuntu_config]
+
   triggers = {
     always_run = timestamp()
   }
 }
 
 resource "null_resource" "windows_access_check_trigger" {
-  count      = length(local.windows_public_ips)
+  count      = local.run_windows_http_check ? length(local.windows_public_ips) : 0
   depends_on = [null_resource.windows_config]
+
   triggers = {
     always_run = timestamp()
   }
 }
 
-
 data "http" "amazon_access_check" {
-  for_each = {
+  for_each = local.run_amazon_http_check ? {
     for idx, ip in local.amazon_public_ips : "${idx + 1}" => ip
-  }
+  } : {}
 
   depends_on = [null_resource.amazon_access_check_trigger]
-
-  url = "http://${each.value}"
+  url        = "http://${each.value}"
 
   lifecycle {
     postcondition {
@@ -404,13 +412,12 @@ data "http" "amazon_access_check" {
 }
 
 data "http" "ubuntu_access_check" {
-  for_each = {
+  for_each = local.run_ubuntu_http_check ? {
     for idx, ip in local.ubuntu_public_ips : "${idx + 1}" => ip
-  }
+  } : {}
 
   depends_on = [null_resource.ubuntu_access_check_trigger]
-
-  url = "http://${each.value}"
+  url        = "http://${each.value}"
 
   lifecycle {
     postcondition {
@@ -421,13 +428,12 @@ data "http" "ubuntu_access_check" {
 }
 
 data "http" "windows_access_check" {
-  for_each = {
+  for_each = local.run_windows_http_check ? {
     for idx, ip in local.windows_public_ips : "${idx + 1}" => ip
-  }
+  } : {}
 
   depends_on = [null_resource.windows_access_check_trigger]
-
-  url = "http://${each.value}"
+  url        = "http://${each.value}"
 
   lifecycle {
     postcondition {
@@ -436,7 +442,6 @@ data "http" "windows_access_check" {
     }
   }
 }
-
 
 resource "null_resource" "amazon_access_check_log" {
   for_each = data.http.amazon_access_check

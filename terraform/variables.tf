@@ -99,12 +99,6 @@ variable "security_groups_config" {
           protocol    = "tcp"
           cidr_blocks = ["115.78.6.138/32"] # Admin VPN IP
         },
-        {
-          from_port   = -1
-          to_port     = -1
-          protocol    = "icmp"
-          cidr_blocks = ["0.0.0.0/0"]
-        }
       ]
       egress = [
         {
@@ -145,12 +139,6 @@ variable "security_groups_config" {
           protocol    = "tcp"
           cidr_blocks = ["0.0.0.0/0"]
         },
-        {
-          from_port   = -1
-          to_port     = -1
-          protocol    = "icmp"
-          cidr_blocks = ["0.0.0.0/0"]
-        }
       ]
       egress = [
         {

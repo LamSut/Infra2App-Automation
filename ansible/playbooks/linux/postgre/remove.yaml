@@ -1,0 +1,43 @@
+- name: Stop and Uninstall PostgreSQL based on OS type
+  hosts: all
+  become: true
+
+  tasks:
+
+    - name: Stop and uninstall PostgreSQL on Ubuntu
+      block:
+        - name: Stop PostgreSQL service
+          service:
+            name: postgresql
+            state: stopped
+            enabled: false
+
+        - name: Uninstall PostgreSQL packages
+          apt:
+            name: postgresql
+            state: absent
+            purge: yes
+            autoremove: yes
+            update_cache: yes
+      when: ansible_os_family == "Debian"
+
+    - name: Stop and uninstall PostgreSQL 15 on Amazon Linux 2023
+      block:
+        - name: Stop PostgreSQL service
+          systemd:
+            name: postgresql
+            state: stopped
+            enabled: false
+
+        - name: Uninstall PostgreSQL 15 packages
+          dnf:
+            name:
+              - postgresql15
+              - postgresql15-server
+            state: absent
+
+        - name: Remove PostgreSQL data directory
+          file:
+            path: /var/lib/pgsql
+            state: absent
+      when: ansible_os_family == "RedHat"

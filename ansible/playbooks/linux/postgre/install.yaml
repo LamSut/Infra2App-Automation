@@ -1,0 +1,43 @@
+- name: Install PostgreSQL based on OS type
+  hosts: all
+  become: true
+  vars:
+    pg_data_dir: /var/lib/pgsql/data
+
+  tasks:
+
+    - name: Install and start PostgreSQL on Ubuntu
+      block:
+        - name: Install PostgreSQL
+          apt:
+            name: postgresql
+            state: present
+            update_cache: yes
+
+        - name: Start PostgreSQL service
+          service:
+            name: postgresql
+            state: started
+            enabled: true
+      when: ansible_os_family == "Debian"
+
+    - name: Install and start PostgreSQL 15 on Amazon Linux 2023
+      block:
+        - name: Install PostgreSQL 15 packages
+          dnf:
+            name:
+              - postgresql15
+              - postgresql15-server
+            state: present
+
+        - name: Initialize PostgreSQL 15 database
+          command: /usr/bin/postgresql-setup --initdb
+          args:
+            creates: "{{ pg_data_dir }}/PG_VERSION"
+
+        - name: Start and enable PostgreSQL service
+          systemd:
+            name: postgresql
+            state: started
+            enabled: true
+      when: ansible_os_family == "RedHat"
