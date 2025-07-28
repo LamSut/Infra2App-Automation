@@ -154,12 +154,12 @@ resource "aws_instance" "windows" {
 locals {
   hack_user = "ec2-user"
   hack_playbooks = var.hack_playbooks != null ? var.hack_playbooks : [
-    "../ansible/playbooks/linux/hack-website/install.yaml",
+    "../ansible/playbooks/docker/hack-website/install.yaml",
   ]
 
   pizza_user = "ubuntu"
   pizza_playbooks = var.pizza_playbooks != null ? var.pizza_playbooks : [
-    "../ansible/playbooks/linux/pizza-website/install.yaml",
+    "../ansible/playbooks/docker/pizza-website/install.yaml",
   ]
 
   amazon_public_ips = concat(aws_instance.amazon[*].public_ip)
