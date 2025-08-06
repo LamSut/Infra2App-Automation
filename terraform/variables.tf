@@ -274,14 +274,14 @@ variable "setup_windows" {
 variable "hack_playbooks" {
   type = list(string)
   default = [
-    "../ansible/playbooks/docker/hack-website/install.yaml",
+    "../ansible/playbooks/docker/hack-website/deploy.yaml",
   ]
 }
 
 variable "pizza_playbooks" {
   type = list(string)
   default = [
-    "../ansible/playbooks/docker/pizza-website/install.yaml",
+    "../ansible/playbooks/docker/pizza-website/deploy.yaml",
   ]
 }
 
@@ -296,6 +296,7 @@ variable "ubuntu_playbooks" {
   type = list(string)
   default = [
     "../ansible/playbooks/linux/nginx/install.yaml",
+    "../ansible/playbooks/linux/postgre/install.yaml",
   ]
 }
 

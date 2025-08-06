@@ -1,0 +1,28 @@
+- name: Remove Ethical Hacking website with Docker
+  hosts: all
+  become: false
+
+  tasks:
+    - name: Ensure Bash script is executable
+      file:
+        path: /home/{{ ansible_user }}/ContainYourself/compose/hack/remove.sh
+        mode: '0755'
+        state: file
+
+    - name: Remove the Ethical Hacking website
+      shell: ./remove.sh
+      args:
+        chdir: /home/{{ ansible_user }}/ContainYourself/compose/hack
+      environment:
+        PATH: "{{ ansible_env.PATH }}"
+        
+    - name: Get Ethical Hacking website removal log
+      shell: cat hack.log
+      args:
+        chdir: /home/{{ ansible_user }}/ContainYourself/compose/hack
+      register: hack_log
+
+    - name: Print Ethical Hacking website removal log
+      debug:
+        msg: "{{ hack_log.stdout_lines }}"
+

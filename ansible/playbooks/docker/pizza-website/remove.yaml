@@ -1,0 +1,27 @@
+- name: Remove Pizza website with Docker
+  hosts: all
+  become: false
+
+  tasks:
+    - name: Ensure Bash script is executable
+      file:
+        path: /home/{{ ansible_user }}/ContainYourself/compose/pizza/remove.sh
+        mode: '0755'
+        state: file
+
+    - name: Remove the Pizza website
+      shell: ./remove.sh
+      args:
+        chdir: /home/{{ ansible_user }}/ContainYourself/compose/pizza
+      environment:
+        PATH: "{{ ansible_env.PATH }}"
+
+    - name: Get Pizza website removal log
+      shell: cat pizza.log
+      args:
+        chdir: /home/{{ ansible_user }}/ContainYourself/compose/pizza
+      register: pizza_log
+
+    - name: Print Pizza website removal log
+      debug:
+        msg: "{{ pizza_log.stdout_lines }}"
