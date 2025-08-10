@@ -2,7 +2,7 @@
  
 This implementation automates infrastructure provisioning and application deployment using common DevOps tools.  
 The process ensures a consistent and maintainable system through the following stages:  
-* Infrastructure Provisioning: Terraform provisions AWS infrastructure components.
+* Infrastructure Provisioning: Terraform provisions AWS Free Tier infrastructure components.
 * Configuration Management: Ansible handles remote application deployment after provisioning.
 * Containerization: [Docker containers](https://github.com/LamSut/ContainYourself) enable consistent deployment across different platforms.
 * Security Hardening: Secure protocols and headers protect against common web threats.
