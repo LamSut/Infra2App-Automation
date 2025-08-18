@@ -9,4 +9,4 @@ The process ensures a consistent and maintainable system through the following s
 * Blue-Green Deployment: Parallel environments enable updates with minimal downtime.
 * CI/CD: GitHub Actions automates build, test and deployment workflows.
 
-<img width="953" height="953" alt="Detail" src="https://github.com/user-attachments/assets/415884b7-7157-4be6-9b6b-90f73f9968d3" />
+<img width="952" height="952" alt="Detail" src="https://github.com/user-attachments/assets/ec695fe3-36b9-4c10-9230-7e4337de9599" />
